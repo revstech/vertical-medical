@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Make the xmlid of menus required by the Pharmacy tour available in webclient -->
+    
+    <record id="pharmacy_app_menu" model="ir.ui.menu">
+        <field name="load_xmlid" eval="True"/>
+    </record>
+    
+    <record id="dispensing_menu" model="ir.ui.menu">
+        <field name="load_xmlid" eval="True"/>
+    </record>
+
+</odoo>
