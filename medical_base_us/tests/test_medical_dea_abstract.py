@@ -11,14 +11,7 @@ class MedicalDeaAbstractTestMixer(TransactionCase):
 
     def setUp(self):
         super(MedicalDeaAbstractTestMixer, self).setUp()
-
-        MedicalTestDea._build_model(self.registry, self.cr)
-        self.model_obj = self.env[MedicalTestDea._name]
-        self.model_obj._prepare_setup()
-        self.model_obj._setup_base(False)
-        self.model_obj._setup_fields(False)
-        self.model_obj._setup_complete()
-
+        self.model_obj = self.env[model_name]
         self.valid = [
             'AP5836727',
         ]
@@ -31,18 +24,6 @@ class MedicalDeaAbstractTestMixer(TransactionCase):
         ],
             limit=1,
         )
-
-
-class MedicalTestDea(models.Model):
-    _name = 'medical.test.dea'
-    _inherit = 'medical.abstract.dea'
-    ref = fields.Char()
-    country_id = fields.Many2one('res.country')
-
-    @api.multi
-    @api.constrains('ref')
-    def _check_ref(self):
-        self._dea_constrains_helper('ref')
 
 
 class TestMedicalDeaAbstract(MedicalDeaAbstractTestMixer):
@@ -69,37 +50,3 @@ class TestMedicalDeaAbstract(MedicalDeaAbstractTestMixer):
             self.model_obj._dea_is_valid(False),
             'DEA validity check on False did not fail gracefully',
         )
-
-    def test_constrain_valid_us(self):
-        """ Test _dea_constrains_helper no ValidationError if valid ref """
-        test_model = self.env['medical.test.dea'].new({
-            'ref': self.valid[0],
-            'country_id': self.country_us.id,
-        })
-
-        try:
-            test_model._check_ref()
-        except ValidationError:
-            self.fail('A ValidationError was raised and should not have been.')
-
-    def test_constrain_invalid_us(self):
-        """ Test _dea_constrains_helper raise ValidationError invalid ref """
-        test_model = self.env['medical.test.dea'].new({
-            'ref': self.invalid[0],
-            'country_id': self.country_us.id,
-        })
-
-        with self.assertRaises(ValidationError):
-            test_model._check_ref()
-
-    def test_constrain_invalid_non_us(self):
-        """ Test _dea_constrains_helper skips validation if not US """
-        test_model = self.env['medical.test.dea'].new({
-            'ref': self.invalid[0],
-            'country_id': self.country_us.id + 1,
-        })
-
-        try:
-            test_model._check_ref()
-        except ValidationError:
-            self.fail('A ValidationError was raised and should not have been.')

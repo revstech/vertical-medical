@@ -11,14 +11,7 @@ class MedicalLuhnAbstractTestMixer(TransactionCase):
 
     def setUp(self):
         super(MedicalLuhnAbstractTestMixer, self).setUp()
-
-        MedicalTestLuhn._build_model(self.registry, self.cr)
-        self.model_obj = self.env[MedicalTestLuhn._name]
-        self.model_obj._prepare_setup()
-        self.model_obj._setup_base(False)
-        self.model_obj._setup_fields(False)
-        self.model_obj._setup_complete()
-
+        self.model_obj = self.env[model_name]
         self.valid = [
             4532015112830366,
             6011514433546201,
@@ -34,18 +27,6 @@ class MedicalLuhnAbstractTestMixer(TransactionCase):
         ],
             limit=1,
         )
-
-
-class MedicalTestLuhn(models.Model):
-    _name = 'medical.test.luhn'
-    _inherit = 'medical.abstract.luhn'
-    ref = fields.Char()
-    country_id = fields.Many2one('res.country')
-
-    @api.multi
-    @api.constrains('ref')
-    def _check_ref(self):
-        self._luhn_constrains_helper('ref')
 
 
 class TestMedicalLuhnAbstract(MedicalLuhnAbstractTestMixer):
@@ -88,37 +69,3 @@ class TestMedicalLuhnAbstract(MedicalLuhnAbstractTestMixer):
             self.model_obj._luhn_is_valid(False),
             'Luhn validity check on False did not fail gracefully',
         )
-
-    def test_constrain_valid_us(self):
-        """ Test _luhn_constrains_helper no ValidationError if valid ref """
-        test_model = self.env['medical.test.luhn'].new({
-            'ref': self.valid[0],
-            'country_id': self.country_us.id,
-        })
-
-        try:
-            test_model._check_ref()
-        except ValidationError:
-            self.fail('A ValidationError was raised and should not have been.')
-
-    def test_constrain_invalid_us(self):
-        """ Test _luhn_constrains_helper raise ValidationError invalid ref """
-        test_model = self.env['medical.test.luhn'].new({
-            'ref': self.invalid[0],
-            'country_id': self.country_us.id,
-        })
-
-        with self.assertRaises(ValidationError):
-            test_model._check_ref()
-
-    def test_constrain_invalid_non_us(self):
-        """ Test _luhn_constrains_helper skips validation if not US """
-        test_model = self.env['medical.test.luhn'].new({
-            'ref': self.invalid[0],
-            'country_id': self.country_us.id + 1,
-        })
-
-        try:
-            test_model._check_ref()
-        except ValidationError:
-            self.fail('A ValidationError was raised and should not have been.')
