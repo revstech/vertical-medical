@@ -75,7 +75,7 @@ class WebsiteSale(WebsiteSale):
             'error': {},
         }
 
-        return request.website.render(
+        return request.render(
             "website_sale_medical_prescription.prescription_details",
             values,
         )
