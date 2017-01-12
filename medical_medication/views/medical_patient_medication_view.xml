@@ -65,18 +65,16 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='pathology_id']" position="replace">
                 <group>
-                    <group>
-                        <field name="medication_template_id"
-                               domain="[('medicament_id','=', medicament_id)]" />
-                        <field name="date_start_treatment" />
-                        <field name="physician_id" />
-                    </group>
-                    <group>
-                        <field name="patient_id" />
-                        <field name="date_stop_treatment" />
-                        <field name="is_discontinued" />
-                        <field name="is_course_complete" />
-                    </group>
+                    <field name="medication_template_id"
+                           domain="[('medicament_id','=', medicament_id)]" />
+                    <field name="date_start_treatment" />
+                    <field name="physician_id" />
+                </group>
+                <group>
+                    <field name="patient_id" />
+                    <field name="date_stop_treatment" />
+                    <field name="is_discontinued" />
+                    <field name="is_course_complete" />
                 </group>
             </xpath>
             <xpath expr="//notebook" position="inside">
