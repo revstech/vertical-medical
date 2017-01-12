@@ -69,6 +69,6 @@ class WebsiteMedical(WebsiteMedical):
         values.update(
             self._inject_medical_detail_vals(patient_id)
         )
-        return request.website.render(
+        return request.render(
             'website_medical_patient.patient', values,
         )
