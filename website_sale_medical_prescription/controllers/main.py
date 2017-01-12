@@ -35,7 +35,8 @@ class WebsiteSale(WebsiteSale):
     def get_cart_prescription_info(self, **kwargs):
 
         # check that cart is valid
-        order_id = request.website.sale_get_order(context=request.env.context)
+        Website = request.website.with_context(request.env.context)
+        order_id = Website.sale_get_order()
         redirection = self.checkout_redirection(order_id)
         if redirection:
             return redirection
@@ -87,7 +88,8 @@ class WebsiteSale(WebsiteSale):
         methods=["POST"],
     )
     def post_cart_prescription_info(self, **kwargs):
-        order_id = request.website.sale_get_order(context=request.env.context)
+        Website = request.website.with_context(request.env.context)
+        order_id = Website.sale_get_order()
         wizard_obj = request.env['medical.prescription.checkout']
         wizard_id = wizard_obj.search(
             [('order_id', '=', order_id.id)], limit=1,
