@@ -306,15 +306,6 @@
                 </notebook> 
             </sheet>
             <footer>
-                <div name="configurator" class="oe_form_sheetbg" groups="medical.group_medical_configurator">
-                    <div class="oe_formview oe_form_sheet_width">
-                        <h3>More Info</h3>
-                        <group name="entity_config">
-                            <field name="id" />
-                            <field name="active" />
-                        </group>
-                    </div>
-                </div>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
                     <field name="message_ids" widget="mail_thread"/>
