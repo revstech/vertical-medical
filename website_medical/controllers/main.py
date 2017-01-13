@@ -167,7 +167,7 @@ class WebsiteMedical(website_account):
         values = {
             'user': request.env.user
         }
-        return request.website.render("website_medical.medical_main", values)
+        return request.render("website_medical.medical_main", values)
 
     def _format_date(self, date):
         if not date:
