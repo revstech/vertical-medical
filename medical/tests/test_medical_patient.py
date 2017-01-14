@@ -78,9 +78,9 @@ class TestMedicalPatient(TransactionCase):
             self.patient_1.age, 'No DoB',
         )
 
-    def test_action_invalidate(self):
+    def test_toggle_active(self):
         """ Test invalidate patient also invalidates partner """
-        self.patient_1.action_invalidate()
+        self.patient_1.toggle_active()
         self.assertEquals(
             [self.partner_patient_1.active, self.patient_1.active],
             [False, False],

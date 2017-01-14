@@ -37,18 +37,20 @@ class MedicalAbstractEntity(models.AbstractModel):
         return super(MedicalAbstractEntity, self).create(vals)
 
     @api.multi
-    def action_invalidate(self):
-        """ It deactivates a patient, and their partner if no active entities.
-        """
+    def toggle_active(self):
+        """ It toggles patient and partner activation. """
         for record in self:
-            record.active = False
-            entities = self.env[self._name].search([
-                ('partner_id', 'child_of', record.partner_id.id),
-                ('parent_id', 'child_of', record.partner_id.id),
-                ('active', '=', True),
-            ])
-            if not entities:
-                record.partner_id.active = False
+            super(MedicalAbstractEntity, self).toggle_active()
+            if record.active:
+                record.partner_id.active = True
+            else:
+                entities = record.env[record._name].search([
+                    ('partner_id', 'child_of', record.partner_id.id),
+                    ('parent_id', 'child_of', record.partner_id.id),
+                    ('active', '=', True),
+                ])
+                if not entities:
+                    record.partner_id.active = False
 
     @api.multi
     @api.depends('id_numbers')
