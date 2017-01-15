@@ -66,4 +66,4 @@ class MedicalPhysician(models.Model):
             )
         with open(img_path, 'r') as image:
             base64_image = image.read().encode('base64')
-            return tools.image_resize_image_big(base64_image)
+        return tools.image_resize_image_big(base64_image)
