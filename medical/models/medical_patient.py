@@ -103,9 +103,7 @@ class MedicalPatient(models.Model):
 
     @api.model_cr_context
     def _get_default_image(self, vals):
-        res = super(MedicalPatient, self)._get_default_image(vals)
-        if res:
-            return res
+        super(MedicalPatient, self)._get_default_image(vals)
         img_path = get_module_resource(
             'medical', 'static/src/img', 'patient-avatar.png',
         )

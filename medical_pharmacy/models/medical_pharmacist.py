@@ -21,9 +21,7 @@ class MedicalPharmacist(models.Model):
 
     @api.model
     def _get_default_image(self, vals):
-        res = super(MedicalPharmacist, self)._get_default_image(vals)
-        if not res:
-            return res
+        super(MedicalPharmacist, self)._get_default_image(vals)
         img_path = 'pharmacist-%s-avatar.png' % vals.get('gender')
         img_path = get_module_resource(
             'medical_pharmacy', 'static/src/img', img_path,
