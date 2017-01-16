@@ -6,7 +6,7 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models, tools
+from odoo import _, api, fields, models
 from odoo.modules import get_module_resource
 from odoo.exceptions import ValidationError
 
@@ -101,7 +101,7 @@ class MedicalPatient(models.Model):
         })
         return vals
 
-    @api.model
+    @api.model_cr_context
     def _get_default_image(self, vals):
         res = super(MedicalPatient, self)._get_default_image(vals)
         if res:
@@ -110,5 +110,4 @@ class MedicalPatient(models.Model):
             'medical', 'static/src/img', 'patient-avatar.png',
         )
         with open(img_path, 'r') as image:
-            base64_image = image.read().encode('base64')
-            return tools.image_resize_image_big(base64_image)
+            return image

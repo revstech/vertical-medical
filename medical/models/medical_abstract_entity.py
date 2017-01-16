@@ -4,7 +4,7 @@
 
 import threading
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError
 
 
@@ -176,11 +176,19 @@ class MedicalAbstractEntity(models.AbstractModel):
         return True
 
     @api.model_cr_context
+    def _create_default_image(self, vals):
+        image = self._get_default_image(vals)
+        if not image:
+            return image
+        base64_image = image.read().encode('base64')
+        return tools.image_resize_image_big(base64_image)
+
+    @api.model_cr_context
     def _get_default_image(self, vals):
         """ Overload this in child classes in order to add a default image.
 
         Child classes should only add the image if super returns False/None.
-        They should return a base64 encoded image.
+        They should return a file-like object.
 
         Example:
 
@@ -195,14 +203,13 @@ class MedicalAbstractEntity(models.AbstractModel):
                     'base', 'static/src/img', 'patient-avatar.png',
                 )
                 with open(img_path, 'r') as image:
-                    base64_image = image.read().encode('base64')
-                    return odoo.tools.image_resize_image_big(base64_image)
+                    return image
 
         Args:
             vals (dict): Values dict as passed to create.
 
         Returns:
-            str: Base64 encoded image if there was one.
+            file: A file-like object representing the image.
             bool: False if error.
             NoneType: None if no result.
         """
