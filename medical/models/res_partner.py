@@ -21,8 +21,20 @@ class ResPartner(models.Model):
     patient_ids = fields.One2many(
         string='Related Patients',
         comodel_name='medical.patient',
-        inverse_name='partner_id',
+        compute='_compute_patient_ids_and_count',
     )
+    count_patients = fields.Integer(
+        compute='_compute_patient_ids_and_count',
+    )
+
+    @api.multi
+    def _compute_patient_ids_and_count(self):
+        for record in self:
+            patients = self.env['medical.patient'].search([
+                ('partner_id', 'child_of', record.id),
+            ])
+            record.count_patients = len(patients)
+            record.patient_ids = [(6, 0, patients.ids)]
 
     @api.multi
     @api.constrains('birthdate_date')
