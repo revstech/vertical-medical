@@ -20,10 +20,8 @@ class MedicalCenter(models.Model):
         return super(MedicalCenter, self)._create_vals(vals)
 
     @api.model
-    def _get_default_image(self, vals):
-        super(MedicalCenter, self)._get_default_image(vals)
-        img_path = get_module_resource(
+    def _get_default_image_path(self, vals):
+        super(MedicalCenter, self)._get_default_image_path(vals)
+        return get_module_resource(
             'medical_center', 'static/src/img', 'medical-center-avatar.png',
         )
-        with open(img_path, 'r') as image:
-            return image
