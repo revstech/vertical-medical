@@ -151,7 +151,7 @@ class MedicalAbstractEntity(models.AbstractModel):
     def _create_vals(self, vals):
         """ Override this in child classes in order to add default values. """
         if self._allow_image_create(vals):
-            vals['image'] = self._get_default_image(vals)
+            vals['image'] = self._get_default_image_encoded(vals)
         return vals
 
     @api.model_cr_context

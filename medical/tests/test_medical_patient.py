@@ -108,7 +108,7 @@ class TestMedicalPatient(TransactionCase):
             len(partner.patient_ids), 1,
         )
 
-    def test_create_vals_default_image(self):
+    def test_create_vals_get_default_image_encoded(self):
         """ It should get the default image for entity on create. """
         Patient = self.env['medical.patient'].with_context(
             __image_create_allow=True,
@@ -117,10 +117,10 @@ class TestMedicalPatient(TransactionCase):
         patient = Patient.create(vals)
         self.assertTrue(patient.image)
 
-    def test_get_default_image(self):
+    def test_get_default_image_encoded(self):
         """ It should return the default image for the entity. """
         Patient = self.env['medical.patient']
-        image = Patient._get_default_image({})
+        image = Patient._get_default_image_encoded({})
         self.assertTrue(image)
 
     def test_allow_image_create_no_test(self):
