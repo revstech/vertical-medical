@@ -4,7 +4,7 @@
 
 import threading
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError
 
 
@@ -157,7 +157,7 @@ class MedicalAbstractEntity(models.AbstractModel):
     def _create_vals(self, vals):
         """ Override this in child classes in order to add default values. """
         if self._allow_image_create(vals):
-            vals['image'] = self._get_default_image(vals)
+            vals['image'] = self._get_default_image_encoded(vals)
         return vals
 
     @api.model_cr_context
@@ -182,11 +182,31 @@ class MedicalAbstractEntity(models.AbstractModel):
         return True
 
     @api.model_cr_context
-    def _get_default_image(self, vals):
-        """ Overload this in child classes in order to add a default image.
+    def _create_default_image(self, vals):
+        base64_image = self._get_default_image_encoded(vals)
+        if not base64_image:
+            return
+        return tools.image_resize_image_big(base64_image)
 
-        Child classes should only add the image if super returns False/None.
-        They should return a base64 encoded image.
+    def _get_default_image_encoded(self, vals):
+        """ It returns the base64 encoded image string for the default avatar.
+
+        Args:
+            vals (dict): Values dict as passed to create.
+
+        Returns:
+            str: A base64 encoded image.
+            NoneType: None if no result.
+        """
+        image_path = self._get_default_image_path(vals)
+        if not image_path:
+            return
+        with open(image_path, 'r') as image:
+            return image.read().encode('base64')
+
+    @api.model_cr_context
+    def _get_default_image_path(self, vals):
+        """ Overload this in child classes in order to add a default image.
 
         Example:
 
@@ -197,18 +217,16 @@ class MedicalAbstractEntity(models.AbstractModel):
                 res = super(MedicalPatient, self)._get_default_image(vals)
                 if not res:
                     return res
-                img_path = odoo.modules.get_module_resource(
+                image_path = odoo.modules.get_module_resource(
                     'base', 'static/src/img', 'patient-avatar.png',
                 )
-                with open(img_path, 'r') as image:
-                    base64_image = image.read().encode('base64')
-                    return odoo.tools.image_resize_image_big(base64_image)
+                return image_path
 
         Args:
             vals (dict): Values dict as passed to create.
 
         Returns:
-            str: Base64 encoded image if there was one.
+            str: A file path to the image on disk.
             bool: False if error.
             NoneType: None if no result.
         """
