@@ -130,14 +130,20 @@ class MedicalAbstractEntity(models.AbstractModel):
                 category = self.env['res.partner.id_category'].search([
                     ('code', '=', category_code),
                 ])
+                name = record[field_name]
+                if not name:
+                    continue
                 self.env['res.partner.id_number'].create({
                     'partner_id': record.partner_id.id,
                     'category_id': category.id,
-                    'name': getattr(record, field_name),
+                    'name': name,
                 })
             elif record_len == 1:
                 value = getattr(record, field_name)
-                id_number.name = value
+                if value:
+                    id_number.name = value
+                else:
+                    id_number.active = False
             else:
                 raise UserError(_(
                     'This %s has multiple IDs of this type (%s), so a write '
