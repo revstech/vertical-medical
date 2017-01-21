@@ -385,12 +385,17 @@
                 <field name="name" />
                 <field name="category_id" />
                 <field name="parent_id" invisible="1" />
+                <field name="partner_id" invisible="1" />
                 <filter string="Tag"
                         domain="[]"
                         context="{'group_by':'category_id'}" />
                 <filter string="Parent"
                         domain="[]"
                         context="{'group_by':'parent_id'}" />
+                <filter string="Related Partner"
+                        domain="[('partner_id', 'child_of', partner_id)]"
+                        invisible="1"
+                        />
             </search>
         </field>
     </record>
