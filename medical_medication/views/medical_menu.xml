@@ -4,6 +4,12 @@
 
 <odoo>
 
+    <menuitem id="medicine_menu"
+              name="Medicine"
+              sequence="30"
+              parent="medical.medical_root"
+              />
+
     <menuitem id="medications_menu_config"
               name="Medications"
               sequence="30"
@@ -13,7 +19,7 @@
     <menuitem id="medical_medication_dosage"
               parent="medications_menu_config"
               action="medical_medication_dosage_action"
-              string="Dosages"
+              name="Dosages"
               sequence="20"
               />
 
@@ -21,14 +27,14 @@
               parent="medications_menu_config"
               sequence="10"
               action="medical_medication_template_action"
-              string="Templates"
+              name="Templates"
               />
     
     <menuitem id="medical_patient_medication_menu"
-              parent="medical_medicament.medicine_menu"
-              sequence="15"
+              parent="medicine_menu"
+              sequence="10"
               action="medical_patient_medication_action"
-              string="Medications"
+              name="Medications"
               />
 
 </odoo>
