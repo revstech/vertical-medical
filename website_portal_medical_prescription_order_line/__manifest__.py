@@ -8,11 +8,8 @@
     'author': "LasLabs, Odoo Community Association (OCA)",
     'category': 'Medical',
     'depends': [
-        'website_sale',
-        'website_medical_patient',
-        'medical_prescription',
-        'sale_medical_prescription',
-        'sale_stock_medical_prescription',
+        'website_portal_medical_patient',
+        'website_sale_medical_prescription',
     ],
     "website": "https://laslabs.com",
     "license": "AGPL-3",

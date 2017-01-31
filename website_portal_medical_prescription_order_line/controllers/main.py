@@ -5,7 +5,7 @@
 from odoo import http
 from odoo.http import request
 
-from odoo.addons.website_medical.controllers.main import (
+from odoo.addons.website_portal_medical.controllers.main import (
     WebsiteMedical
 )
 
