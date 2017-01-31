@@ -13,7 +13,7 @@
     "application": False,
     "installable": True,
     "depends": [
-        "website_medical",
+        "website_portal_medical",
     ],
     "data": [
         "views/website_medical_template.xml",

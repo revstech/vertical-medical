@@ -1,7 +1,7 @@
 // Copyright 2016 LasLabs Inc.
 // License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-odoo.define('website_medical.delete_form', function(require) {
+odoo.define('website_portal_medical.delete_form', function(require) {
     "use strict";
 
     var base = require('web_editor.base');

@@ -155,7 +155,7 @@
                 </div>
             </form>
             <a class="medical-form-btn-delete">
-                <t t-call="website_medical.object_delete">
+                <t t-call="website_portal_medical.object_delete">
                     <t t-set="object" t-value="patient" />
                     <t t-set="name" t-value="'patient'" />
                     <t t-set="redirect_on_success" t-value="'/my/medical'" />
