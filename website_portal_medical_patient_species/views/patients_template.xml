@@ -4,7 +4,7 @@
 
 <odoo>
 
-    <template id="patient_detail" inherit_id="website_medical_patient.patient_detail">
+    <template id="patient_detail" inherit_id="website_portal_medical_patient.patient_detail">
         <xpath expr="//div[div[label[@for='gender']]]" position="after">
             <div class="form-group">
                 <div t-attf-class="form-field #{error.get('species_id') and 'has-error' or ''} o_website_form_required_custom">

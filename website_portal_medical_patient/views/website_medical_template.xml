@@ -9,7 +9,7 @@
               inherit_id="website_portal_medical.medical_main">
         <xpath expr="//div[contains(@class,'o_my_medical')]" position="inside">
             <div class="o_website_medical_container o_website_medical_patient">
-                <t t-call="website_medical_patient.patients" />
+                <t t-call="website_portal_medical_patient.patients" />
             </div>
         </xpath>
     </template>

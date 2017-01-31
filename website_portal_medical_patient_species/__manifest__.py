@@ -13,7 +13,7 @@
     "application": False,
     "installable": True,
     "depends": [
-        "website_medical_patient",
+        "website_portal_medical_patient",
         "medical_patient_species",
     ],
     "data": [

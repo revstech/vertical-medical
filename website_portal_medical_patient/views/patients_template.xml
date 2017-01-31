@@ -39,7 +39,7 @@
                 <div class="oe_structure" />
                 <div class="container">
                     <div class="row">
-                        <t t-call="website_medical_patient.patient_detail">
+                        <t t-call="website_portal_medical_patient.patient_detail">
                             <t t-set="patient" t-value="patient"/>
                             <t t-set="partner" t-value="partner"/>
                         </t>

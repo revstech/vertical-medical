@@ -70,5 +70,5 @@ class WebsiteMedical(WebsiteMedical):
             self._inject_medical_detail_vals(patient_id)
         )
         return request.render(
-            'website_medical_patient.patient', values,
+            'website_portal_medical_patient.patient', values,
         )
