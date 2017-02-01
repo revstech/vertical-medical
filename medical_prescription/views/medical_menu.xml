@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2016 LasLabs Inc.
+<!-- Copyright 2016-2017 LasLabs Inc.
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
 
-    <menuitem id="medical_prescription_root"
-              name="Prescriptions"
-              parent="medical.medical_root"
-              sequence="30" />
-
     <menuitem id="medical_prescription_order_menu"
-              sequence="10"
-              parent="medical_prescription_root"
+              parent="medical_medication.medicine_menu"
               action="medical_prescription_order_action"
-              name="Orders"
+              name="Prescription Orders"
+              sequence="20"
               />
 
-
     <menuitem id="medical_prescription_order_line_menu"
-              sequence="20"
-              parent="medical_prescription_root"
+              parent="medical_medication.medicine_menu"
               action="medical_prescription_order_line_action"
-              name="Dispensing"
+              name="Prescription Lines"
+              sequence="30"
               />
 
 </odoo>
