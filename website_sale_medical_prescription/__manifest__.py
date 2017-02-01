@@ -15,7 +15,6 @@
     'depends': [
         'sale_medical_prescription',
         'website_sale',
-        'website_medical_prescription_order_line',
         'website_sale_medical_medicament',
         'website_field_autocomplete_related',
     ],
