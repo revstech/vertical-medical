@@ -11,6 +11,10 @@ This module adds the Pet concept/logic to Patient
 Usage
 =====
 
+#. Go to Medical -> Patient -> Patient
+#. Select a patient and press "Edit"
+#. You will be given the option to add a patient's species
+
 For further information, please visit:
 
 * https://www.odoo.com/forum/help-1

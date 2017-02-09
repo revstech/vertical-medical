@@ -10,6 +10,10 @@ Extension of medical_insurance in order to provide pricelists
 Usage
 =====
 
+#. Go to Medical -> Patient -> Patient and select a patient
+#. Select "Create Plan" from the action menu to create an insurance plan
+with a plan template
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/8.0

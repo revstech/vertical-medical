@@ -10,6 +10,10 @@ Extension of medical_insurance in order to provide US Locale
 Usage
 =====
 
+#. Go to Medical -> Configuration -> Insurance -> Insurance Plan Template
+#. Additional fields for the US are available, such as Rx BIN, Rx PCN, and
+Rx group numbers.
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/8.0

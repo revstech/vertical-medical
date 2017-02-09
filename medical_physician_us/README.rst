@@ -11,6 +11,10 @@ Extension of medical_physician that provides US Locale
 Usage
 =====
 
+#. Go to Medical -> Health Professionals -> Physicians
+#. You will be given the option to add the physician's state license number,
+DEA number, and NPI number.
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/8.0

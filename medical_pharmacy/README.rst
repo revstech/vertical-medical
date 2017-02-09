@@ -11,6 +11,11 @@ Extension of medical that adds a pharmacy namespace on partners
 Usage
 =====
 
+#. Go to Medical -> Medical Facilities -> Pharmacies
+#. Add a pharmacy by pressing "Create"
+#. Go to Medical -> Health Professionals -> Pharmacists
+#. Add a pharmacist by pressing "Create"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

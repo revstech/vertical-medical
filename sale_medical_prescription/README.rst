@@ -11,9 +11,8 @@ Extension of medical_prescription that allows for integration into sales workflo
 Usage
 =====
 
-Click `More` menu when viewing Medical Prescription Orders, then `Create Quote(s)`
-to trigger Rx to Sale wizard.
-
+#. Go to Medical -> Medicine -> Prescription Lines and select a prescription line
+#. Select Create Quotes from the action menu to trigger the sale wizard and create a quote
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot

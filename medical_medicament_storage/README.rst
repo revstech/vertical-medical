@@ -23,7 +23,8 @@ No configuration is needed or possible.
 Usage
 =====
 
-Install and enjoy.
+#. Go to Medical -> Configuration -> Medicaments -> Medicament Storage Instructions
+#. Press "Create" or "Import" to add a code with storage instructions
 
 Known Issues / Roadmap
 ======================

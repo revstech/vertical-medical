@@ -11,6 +11,9 @@ This module isolates the existing Allergy concept/logic from Disease.
 Usage
 =====
 
+#. Go to Medical -> Configuration -> Pathology -> Pathologies
+#. When you press "Create" to add a disease, "Allergy" will be an option under "Code Type"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

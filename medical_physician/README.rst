@@ -11,6 +11,11 @@ This module extends Odoo Medical with functionality for medical physicians.
 Usage
 =====
 
+#. Go to Medical -> Health Professionals -> Physicians
+#. Add a physician by pressing "Create"
+#. Add a specialty while creating a physician, or by going to Medical -> Configuration ->
+Health Professionals -> Medical Specialties and pressing "Create"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

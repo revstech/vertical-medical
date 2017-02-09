@@ -12,6 +12,10 @@ in order to maintain a clean patient prescription history.
 Usage
 =====
 
+#. Go to Medical -> Medicine -> Prescription Lines
+#. Select a prescription or create a new one
+#. You will be given the option to add a disease to the prescription
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

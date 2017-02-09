@@ -12,6 +12,13 @@ It also includes concept of drug forms and drug routes.
 Usage
 =====
 
+#. Go to Medical -> Configuration -> Medicaments
+#. Under Medicaments, add or import a medicament by pressing "Create" or "Import"
+#. Under Admin Routes, add or import a code for how to administer the drug
+by pressing "Create" or "Import"
+#. Under Components, add or import a medicament component by pressing "Create" or "Import"
+#. Under Forms, add or import a code for a drug form by pressing "Create" or "Import"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

@@ -11,6 +11,12 @@ This module extends the medical patient concept with diseases (using pathologies
 Usage
 =====
 
+#. Go to Medical -> Patient -> Patient
+#. Select a patient and click the "Diseases" box in the upper right hand corner
+#. View the patient's diseases or add more diseases by pressing "Create" or "Import"
+#. Go to Medical -> Patient -> Diseases
+#. View the diseases of all patients or add more diseases with the "Create" and "Import" buttons
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
