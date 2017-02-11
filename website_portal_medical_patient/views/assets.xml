@@ -6,7 +6,7 @@
 
     <template id="assets_frontend" name="LasLabs.com Front End  Assets" inherit_id="website.assets_frontend">
         <xpath expr="." position="inside">
-            <link href="/website_medical_patient/static/src/css/website_portal_medical_patient.less" rel="stylesheet" />
+            <link href="/website_portal_medical_patient/static/src/css/website_portal_medical_patient.less" rel="stylesheet" />
         </xpath>
     </template>
 
