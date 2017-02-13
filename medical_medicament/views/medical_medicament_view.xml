@@ -82,7 +82,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page name="medicament" string="Medicaments">
+                <page name="medicament" string="Medicaments" autofocus="autofocus">
                     <group>
                         <group string="Drug Info" name="drug_info">
                             <field name="drug_form_id" />
