@@ -1,51 +1,52 @@
 .. image:: https://img.shields.io/badge/license-AGPL--3-blue.svg
+    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 
-==================================
-Odoo Medical Prescription Sale CRM
-==================================
+===============================
+Sale CRM - Medical Prescription
+===============================
 
-Extension of sale_medical_prescription that provides the ability to
-create Opportunities from Prescription Order Lines
-
+Extension of Sale Medical Prescription that provides the ability to
+create opportunities from prescription order lines.
 
 Usage
 =====
 
-
-#. Go to Medical -> Medicine -> Prescription Lines and select a prescription line
-#. In the action menu, select "Create Quote(s)" or "Create Lead(s)" to do either
+* To use this module, go to `Medical`, then click `Prescription Order Lines` in the left panel.
+* Click on one of the prescription order lines.
+* Click on the `Action` button in the top middle of the page, then click `Create Lead(s)`.
+* This opens up a form with the fields automatically populated. Click `Create Lead(s)` to finalize creation.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
 
-For further information, please visit:
-
-* https://www.odoo.com/forum/help-1
-
-Known issues / Roadmap
+Known Issues / Roadmap
 ======================
 
-* Improve and provide a full description for this module into the README.rst
-
+* Add functionality to split orders by customers and prescription order lines in crm wizard.
 
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-medical/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/vertical-medical/issues/new?body=module:%20sale_crm_medical_prescription%0Aversion:%2010.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
-
+Bugs are tracked on `GitHub Issues
+<https://github.com/OCA/vertical-medical/issues>`_. In case of trouble, please
+check there if your issue has already been reported. If you spotted it first,
+help us smashing it by providing a detailed and welcomed feedback.
 
 Credits
 =======
+
+Images
+------
+
+* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
 
 Contributors
 ------------
 
 * Dave Lasley <dave@laslabs.com>
+* Brett Wood <bwood@laslabs.com>
 
 Maintainer
 ----------
