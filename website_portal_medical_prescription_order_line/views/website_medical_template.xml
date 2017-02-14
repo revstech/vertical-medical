@@ -11,7 +11,7 @@
               inherit_id="website_portal_medical.medical_main">
         <xpath expr="//div[contains(@class,'o_website_medical_patient')]" position="after">
             <div class="o_website_medical_container o_website_medical_prescription_order_line">
-                <t t-call="website_medical_prescription_order_line.prescription_lines" />
+                <t t-call="website_portal_medical_prescription_order_line.prescription_lines" />
             </div>
         </xpath>
     </template>
