@@ -49,7 +49,7 @@
         <field name="drug_form_id" ref="medical_medicament.TAB" />
         <field name="strength">0.25</field>
         <field name="strength_uom_id" ref="product.product_uom_gram" />
-        <field name="is_pregnancy_warning">True</field>
+        <field name="is_pregnancy_warning" eval="True" />
         <field name="drug_route_id" ref="medical_medicament.route_34" />
         <field name="product_id" ref="medical_medication.product_product_aralen_1" />
         <field name="pregnancy_category">d</field>

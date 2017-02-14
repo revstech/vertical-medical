@@ -24,7 +24,7 @@
         <field name="drug_form_id" ref="medical_medicament.CAP" />
         <field name="strength">0.2</field>
         <field name="strength_uom_id" ref="product.product_uom_gram" />
-        <field name="is_pregnancy_warning">True</field>
+        <field name="is_pregnancy_warning" eval="True" />
         <field name="drug_route_id" ref="medical_medicament.route_34" />
         <field name="product_id" ref="medical_medicament.product_product_advil_1" />
         <field name="pregnancy_category">d</field>
@@ -56,7 +56,7 @@
         <field name="drug_form_id" ref="medical_medicament.CAP" />
         <field name="strength">0.4</field>
         <field name="strength_uom_id" ref="product.product_uom_gram" />
-        <field name="is_pregnancy_warning">True</field>
+        <field name="is_pregnancy_warning" eval="True" />
         <field name="drug_route_id" ref="medical_medicament.route_34" />
         <field name="product_id" ref="medical_medicament.product_product_advil_2" />
         <field name="pregnancy_category">d</field>
