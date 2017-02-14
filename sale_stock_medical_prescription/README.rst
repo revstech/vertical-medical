@@ -11,6 +11,15 @@ Extension of sale_medical_prescription that allows for a pharmacy warehouse
 Usage
 =====
 
+#. Go to Settings -> Groups -> Manage Push and Pull inventory flows
+#. Add the desired users to this group
+#. Users added to the group should then be able to go to Inventory -> Configuration ->
+Warehouse Management -> Warehouses
+#. When they create or edit a warehouse, they will be able to select if the warehouse
+is a pharmacy and supply a prescription route and OTC route in the "Pharmacy" tab
+#. Go to Medical -> Medicine -> Prescription Orders and select a prescription
+to view the order lines
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

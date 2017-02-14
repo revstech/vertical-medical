@@ -18,12 +18,17 @@ To install this module, you need to:
 Configuration
 =============
 
+To configure this module, you need to:
+
+#. As a logged-in administrator, go to Website -> Shop -> Cart
+#. In the Customize menu, enable Prescription Step Option under Wizard Checkout
 
 Usage
 =====
 
 To use this module, you need to:
 
+* Buy product that is child of Prescription internal category using website
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot

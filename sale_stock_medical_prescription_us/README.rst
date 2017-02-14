@@ -11,6 +11,9 @@ Extension of sale_medical_prescription that allows for a pharmacy warehouse
 Usage
 =====
 
+#. Go to Medical -> Medicine -> Prescription Orders and select a prescription
+to view the order lines
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

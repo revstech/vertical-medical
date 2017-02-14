@@ -11,6 +11,10 @@ This module adds date of birth to patient name in search field autocomplete.
 Usage
 =====
 
+#. Go to Medical -> Patient -> Patient
+#. Start typing a date of birth into the search box, and you will be given the option
+to search for a patient by their date of birth
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

@@ -11,6 +11,10 @@ It includes the operating room too and the concept of medical unit.
 Usage
 =====
 
+#. Go to Medical -> Configuration -> Health Center
+#. Create hospital beds, rooms, zones, operating rooms or units by going to
+the corresponding page and pressing "Create"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/8.0

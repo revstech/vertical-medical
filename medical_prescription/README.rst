@@ -12,6 +12,14 @@ into the medical addons.
 Usage
 =====
 
+#. Go to Medical -> Medicine
+#. Under Medication, add medications by pressing "Create" or "Import"
+#. Under Prescription Orders, add an order by pressing "Create"
+#. Under Prescription Lines, add an order line by pressing "Create"
+#. Go to Medical -> Configuration -> Medications
+#. Under Templates, add medication templates by pressing "Create" or "Import"
+#. Under Dosages, add medication dosages by pressing "Create" or "Import"
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

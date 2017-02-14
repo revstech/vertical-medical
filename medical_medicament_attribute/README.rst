@@ -10,6 +10,10 @@ Extension of medical_medicament that provides physical attribute codes
 Usage
 =====
 
+#. Go to Medical -> Configuration -> Medicaments
+#. Under Attribute Types, press "Create" or "Import" to add an attribute type
+#. Under Attributes, press "Create" or "Import" to add an attribute
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

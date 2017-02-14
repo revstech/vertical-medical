@@ -20,8 +20,8 @@ Configuration
 
 To configure this module, you need to:
 
-* Go to Website Admin for Pharmacy website
-* Enable ``Prescription Step Option`` in Website Checkout customization
+#. As a logged-in administrator, go to Website -> Shop -> Cart
+#. In the Customize menu, enable Prescription Step Option under Wizard Checkout
 
 Usage
 =====

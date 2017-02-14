@@ -12,6 +12,10 @@ create Opportunities from Prescription Order Lines
 Usage
 =====
 
+
+#. Go to Medical -> Medicine -> Prescription Lines and select a prescription line
+#. In the action menu, select "Create Quote(s)" or "Create Lead(s)" to do either
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0

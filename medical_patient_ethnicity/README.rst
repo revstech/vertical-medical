@@ -10,6 +10,10 @@ Extension of medical that provides ethnicity attributes to medical_patient
 Usage
 =====
 
+#. Go to Medical -> Patient -> Patient
+#. Select a patient and press "Edit"
+#. You will be given the option to add a patient's ethnicity
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/8.0

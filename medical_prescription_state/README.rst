@@ -11,6 +11,9 @@ Extension of medical_prescription that adds Kanban states to Prescription Orders
 Usage
 =====
 
+#. Go to Medical -> Medicine -> Prescription Orders or Prescription Lines
+#. Move prescription orders or lines into different Kanban states
+
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
