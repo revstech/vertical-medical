@@ -33,7 +33,7 @@
         <field name="email">doc_johnson@example.com</field>
         <field name="phone">+1 (702) 456-2347</field>
         <field name="ref">218-69-6264</field>
-        <field name="supplier">False</field>
+        <field name="supplier" eval="False" />
         <field name="gender">male</field>
     </record>
 

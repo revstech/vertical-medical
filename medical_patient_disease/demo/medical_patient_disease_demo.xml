@@ -15,12 +15,12 @@
         <field name="date_diagnosed">2016-12-01</field>
         <field name="date_treatment_start">2016-12-02</field>
         <field name="date_treatment_end">2016-12-22</field>
-        <field name="is_infectious">True</field>
-        <field name="active">False</field>
+        <field name="is_infectious" eval="True" />
+        <field name="active" eval="False" />
     </record>
 
     <record id="medical_patient_disease_disease_2" model="medical.patient.disease">
-        <field name="is_on_treatment">True</field>
+        <field name="is_on_treatment" eval="True" />
         <field name="treatment_description">1 dose Truvada per day</field>
         <field name="patient_id" ref="medical_patient_disease.medical_patient_patient_4" />
         <field name="pathology_id" ref="medical_pathology.medical_pathology_medical_pathology_1" />
@@ -30,10 +30,10 @@
         <field name="age">23</field>
         <field name="date_diagnosed">2012-02-03</field>
         <field name="date_treatment_start">2012-02-14</field>
-        <field name="is_pregnant">True</field>
-        <field name="is_infectious">True</field>
+        <field name="is_pregnant" eval="True" />
+        <field name="is_infectious" eval="True" />
         <field name="weeks_of_pregnancy">12</field>
-        <field name="active">True</field>
+        <field name="active" eval="True" />
     </record>
 
 </odoo>

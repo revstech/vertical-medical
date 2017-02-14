@@ -58,7 +58,7 @@
     <record id="medical_medication_template_template_4" model="medical.medication.template">
         <field name="medicament_id" ref="medical_medicament.medical_medicament_advil_1" />
         <field name="pathology_id" ref="medical_medication.medical_pathology_pathology_4" />
-        <field name="frequency_prn">True</field>
+        <field name="frequency_prn" eval="True" />
         <field name="medication_dosage_id" ref="medical_medication.420449005" />
         <field name="quantity">200</field>
         <field name="dose_uom_id" ref="product.product_uom_unit" />
