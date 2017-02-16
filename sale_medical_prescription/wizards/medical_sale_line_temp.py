@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
-import openerp.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
 
 class MedicalSaleLineTemp(models.TransientModel):
@@ -26,16 +26,19 @@ class MedicalSaleLineTemp(models.TransientModel):
         comodel_name='product.uom',
     )
     product_uom_qty = fields.Float(
-        'Quantity',
+        string='Quantity',
         digits=dp.get_precision('Product UoM'),
         required=True,
+        store=True,
     )
     price_unit = fields.Float(
-        'Unit Price',
+        string='Unit Price',
         digits=dp.get_precision('Product Price'),
         required=True,
+        store=True,
     )
     price_subtotal = fields.Float(
+        string='Subtotal',
         digits=dp.get_precision('Account'),
         required=True,
         compute='_compute_all_amounts',
@@ -47,26 +50,25 @@ class MedicalSaleLineTemp(models.TransientModel):
 
     @api.multi
     @api.depends('price_unit', 'product_uom_qty')
-    def _compute_all_amounts(self, ):
-        for rec_id in self:
-            rec_id.price_subtotal = rec_id.price_unit * rec_id.product_uom_qty
-            # taxes = self.env['account.tax'].compute_all()
+    def _compute_all_amounts(self):
+        for record in self:
+            record.price_subtotal = record.price_unit * record.product_uom_qty
 
     @api.multi
-    def _to_insert(self, ):
+    def _to_insert(self):
         """ List of insert tuples for ORM methods """
         return list(
             (0, 0, v) for v in self._to_vals_iter()
         )
 
     @api.multi
-    def _to_vals_iter(self, ):
+    def _to_vals_iter(self):
         """ Generator of values dicts for ORM methods """
-        for sale_id in self:
-            yield sale_id._to_vals()
+        for record in self:
+            yield record._to_vals()
 
     @api.multi
-    def _to_vals(self, ):
+    def _to_vals(self):
         """ Return a values dictionary to create in real model """
         self.ensure_one()
         name = '%s - %s' % (

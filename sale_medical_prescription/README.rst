@@ -1,9 +1,9 @@
 .. image:: https://img.shields.io/badge/license-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-===============================
-Odoo Medical Prescription Sales
-===============================
+==========================
+Medical Prescription Sales
+==========================
 
 Extension of medical_prescription that allows for integration into sales workflows
 
@@ -26,7 +26,7 @@ Known issues / Roadmap
 ======================
 
 * Improve and provide a full description for this module into the README.rst
-
+* Audit fields to determine if some can be moved into ``medical_prescription``
 
 Bug Tracker
 ===========
