@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api, _
-import openerp.addons.decimal_precision as dp
+from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
 import logging
 
 
@@ -14,6 +14,8 @@ class MedicalSaleTemp(models.TransientModel):
     _name = 'medical.sale.temp'
     _description = 'Temporary order info for Sale2Rx workflow'
 
+    note = fields.Text()
+    origin = fields.Char()
     order_line = fields.One2many(
         string='Order Lines',
         comodel_name='medical.sale.line.temp',
@@ -68,7 +70,6 @@ class MedicalSaleTemp(models.TransientModel):
     client_order_ref = fields.Char(
         string='Order Reference',
     )
-    origin = fields.Char()
     currency_id = fields.Many2one(
         string='Currency',
         comodel_name='res.currency',
@@ -81,7 +82,6 @@ class MedicalSaleTemp(models.TransientModel):
         comodel_name='res.company',
         required=True,
     )
-    note = fields.Text()
     user_id = fields.Many2one(
         string='Salesperson',
         comodel_name='res.users',
@@ -93,6 +93,7 @@ class MedicalSaleTemp(models.TransientModel):
         comodel_name='crm.team',
     )
     amount_untaxed = fields.Float(
+        string='Total Before Tax',
         compute='_compute_all_amounts',
         digits=dp.get_precision('Account'),
     )
@@ -108,61 +109,58 @@ class MedicalSaleTemp(models.TransientModel):
         string='Project',
         comodel_name='account.analytic.account',
     )
-    state = fields.Selection([
-        ('new', _('Not Started')),
-        ('start', _('Started')),
-        ('done', _('Completed')),
-    ],
+    state = fields.Selection(
+        selection=[
+            ('new', 'Not Started'),
+            ('start', 'Started'),
+            ('done', 'Completed'),
+        ],
         readonly=True,
         default='new',
     )
 
     @api.model
-    def _default_session(self, ):
+    def _compute_default_session(self):
         return self.env['medical.sale.wizard'].browse(
             self._context.get('active_id')
         )
 
     @api.multi
-    def _compute_line_cnt(self, ):
-        for rec_id in self:
-            rec_id.line_cnt = len(rec_id.order_line)
+    def _compute_line_cnt(self):
+        for record in self:
+            record.line_cnt = len(record.order_line)
 
     @api.multi
-    def _compute_all_amounts(self, ):
-        for rec_id in self:
-            # curr = self.pricelist_id.currency_id
+    def _compute_all_amounts(self):
+        for record in self:
             untaxed = 0.0
-            # taxes = 0.0
-            for line in rec_id.order_line:
+            for line in record.order_line:
                 untaxed += line.price_subtotal
-                # taxes += line.amount_tax
-            rec_id.amount_untaxed = untaxed
+            record.amount_untaxed = untaxed
 
     @api.multi
-    def action_next_wizard(self, ):
+    def action_next_wizard(self):
         self.ensure_one()
         self.state = 'done'
-        #   @TODO: allow this workflow without a parent wizard
         wizard_action = self.prescription_wizard_id.action_next_wizard()
         _logger.debug('next_wizard: %s', wizard_action)
         return wizard_action
 
     @api.multi
-    def _to_insert(self, ):
+    def _to_insert(self):
         """ List of insert tuples for ORM methods """
         return list(
             (0, 0, v) for v in self._to_vals_iter()
         )
 
     @api.multi
-    def _to_vals_iter(self, ):
+    def _to_vals_iter(self):
         """ Generator of values dicts for ORM methods """
-        for sale_id in self:
+        for record in self:
             yield self._to_vals()
 
     @api.multi
-    def _to_vals(self, ):
+    def _to_vals(self):
         """ Return a values dictionary to create in real model """
         self.ensure_one()
         pids = [(4, p.id, 0) for p in self.prescription_order_ids]
@@ -183,7 +181,5 @@ class MedicalSaleTemp(models.TransientModel):
             'origin': self.origin,
             'note': self.note,
             'team_id': self.team_id.id,
-            'payment_term': self.payment_term.id,
-            'fiscal_position': self.fiscal_position.id,
             'project_id': self.project_id.id,
         }

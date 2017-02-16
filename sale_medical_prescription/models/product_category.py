@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, api
+from odoo import api, models
 
 
 class ProductCategory(models.Model):
@@ -10,18 +10,7 @@ class ProductCategory(models.Model):
 
     @api.multi
     def _is_descendant_of(self, category_id):
-        """
-        Compute whether the provided category is an ancestor of the input
-
-        Raises:
-            AssertionError: self is not a singleton
-
-        Args:
-            category_id: ProductCategory Recordset singleton possible ancestor
-
-        Returns:
-            `Boolean` whether self inherits from category_id
-        """
+        """ Compute whether provided category is an ancestor of the input """
         self.ensure_one()
         if not self.parent_id:
             return False
