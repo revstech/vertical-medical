@@ -23,7 +23,7 @@ class MedicalLeadWizard(models.TransientModel):
     )
     pharmacy_id = fields.Many2one(
         string='Pharmacy',
-        help=_('Pharmacy to dispense orders from'),
+        help='Pharmacy to dispense orders from',
         comodel_name='medical.pharmacy',
         required=True,
         default=lambda s: s._compute_default_pharmacy(),
@@ -35,7 +35,7 @@ class MedicalLeadWizard(models.TransientModel):
     ],
         default='patient',
         required=True,
-        help=_('How to split the new orders'),
+        help='How to split the new orders',
     )
 
     def _compute_default_session(self, ):
@@ -75,10 +75,8 @@ class MedicalLeadWizard(models.TransientModel):
                 'pharmacy_id': self.pharmacy_id.id,
                 'prescription_order_line_ids': order_lines,
                 'is_prescription': True,
-                'name': ', '.join(l.name for l in order)
+                'name': ', '.join([l.name or '' for l in order])
             })
-
-        _logger.debug('Created %s', lead_ids)
 
         model_obj = self.env['ir.model.data']
         form_id = model_obj.xmlid_to_object('crm.crm_case_form_view_oppor')
