@@ -159,6 +159,7 @@
                                 <field name="date_treatment_end" />
                                 <field name="is_on_treatment" />
                                 <field name="date_healed" />
+                                <field name="id" invisible="1" />
                             </group>
                         </group>
                     </group>
