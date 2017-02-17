@@ -29,9 +29,6 @@
                             <field name="member_exp" />
                         </group>
                         <notebook>
-                            <page string="Additional">
-                                <field name="notes" placeholder="Notes..." />
-                            </page>
                             <page string="Plan Information">
                                 <group name="plan_info">
                                     <field name="plan_number" />
@@ -39,6 +36,9 @@
                                     <field name="insurance_company_id" />
                                     <field name="insurance_affiliation" />
                                 </group>
+                            </page>
+                            <page string="Additional">
+                                <field name="notes" placeholder="Notes..." />
                             </page>
                         </notebook>
                     </sheet>

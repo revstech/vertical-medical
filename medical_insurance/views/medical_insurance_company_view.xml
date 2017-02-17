@@ -16,9 +16,7 @@
                     <field name="parent_id" placeholder="Parent Company"
                            domain="[('is_company', '=', True)]"
                            context="{'default_is_company': True,
-                                     'default_type': 'medical.insurance.company',
-                                     'default_supplier': supplier,
-                                     'default_customer': customer}" />
+                                     'default_type': 'medical.insurance.company'}" />
                 </h3>
             </xpath>
         </field>
