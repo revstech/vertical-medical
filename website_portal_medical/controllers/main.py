@@ -48,7 +48,7 @@ class WebsiteForm(Ctrl):
             return json.dumps(False)
 
         try:
-            data = self.extract_data(model_record, **kwargs)
+            data = self.extract_data(model_record, kwargs)
         # If we encounter an issue while extracting data
         except ValidationError, e:
             # I couldn't find a cleaner way to pass data to an exception
