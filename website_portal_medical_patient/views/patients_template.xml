@@ -120,7 +120,7 @@
                                     </label>
                                     <select name="gender" class="form-control o_website_form_input" required="">
                                         <option value="">Gender...</option>
-                                        <t t-foreach="[('f', 'Female'), ('m', 'Male'), ]"
+                                        <t t-foreach="[('female', 'Female'), ('male', 'Male'), ]"
                                         t-as="gender">
                                             <option t-att-value="gender[0]"
                                                     t-att-selected="gender[0] == (request.params.get('gender') or patient.gender)">
