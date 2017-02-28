@@ -138,8 +138,6 @@
                                          'default_state_id': state_id,
                                          'default_zip': zip,
                                          'default_country_id': country_id,
-                                         'default_supplier': supplier,
-                                         'default_customer': customer,
                                          'default_lang': lang,
                                          }">
                             <kanban>
