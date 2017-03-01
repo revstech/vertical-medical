@@ -88,6 +88,15 @@
                     </group>
                 </page>
             </xpath>
+            <xpath expr="//field[@name='age']" position="after">
+                <label for="weight" />
+                <div>
+                    <field name='weight' class="oe_inline" />
+                    <field name='weight_uom'
+                           class="oe_inline"
+                           placeholder="UoM" />
+                </div>
+            </xpath>
         </field>
     </record>
 
