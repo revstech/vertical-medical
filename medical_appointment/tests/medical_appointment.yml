@@ -41,11 +41,11 @@
     email: arun@example.com
 
 -
-  Create New Institution
+  Create New Medical Center
 -
   !record {model: res.partner, id: partner_2}:
-    name: Test Institution
-    is_institution: True
+    name: Test Medical Center
+    type: medical.center
     street: 123 Test St
     street2: Suite 111
     city: Las Vegas
@@ -93,7 +93,6 @@
     duration: 22
     physician_id: physician_1
     alias: Annual Checkup
-    comments: Testing new appointment
     appointment_type: outpatient
     institution_id: partner_2
     consultation_ids: 
