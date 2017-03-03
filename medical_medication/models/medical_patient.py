@@ -3,7 +3,7 @@
 # Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MedicalPatient(models.Model):
@@ -15,3 +15,13 @@ class MedicalPatient(models.Model):
         inverse_name='patient_id',
         help='Medications that the patient is currently on',
     )
+
+    count_medication_ids = fields.Integer(
+        compute='_compute_count_medication_ids',
+        string='Medications',
+    )
+
+    @api.multi
+    def _compute_count_medication_ids(self):
+        for rec_id in self:
+            rec_id.count_medication_ids = len(rec_id.medication_ids)

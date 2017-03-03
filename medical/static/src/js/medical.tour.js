@@ -3,12 +3,9 @@
 
 odoo.define("medical.tour", function (require) {
     "use strict";
-    
     var core = require('web.core');
     var tour = require('web_tour.tour');
-    
     var _t = core._t;
-    
     tour.STEPS.MEDICAL = [
         tour.STEPS.MENU_MORE,
         {
@@ -17,7 +14,6 @@ odoo.define("medical.tour", function (require) {
             position: 'bottom',
         },
     ];
-    
     tour.register('medical_tour', {
         url: "/web",
     },

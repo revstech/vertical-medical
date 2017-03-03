@@ -9,7 +9,7 @@
         <field name="model">medical.patient</field>
         <field name="inherit_id" ref="medical.medical_patient_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='buttons']" position="inside">
+            <xpath expr="//group[@name='group_medical_buttons']" position="inside">
                 <button name="medical_patient_disease.medical_patient_disease_action"
                         type="action" class="oe_stat_button" icon="fa-list"
                         context="{'search_default_patient_id': active_id}">

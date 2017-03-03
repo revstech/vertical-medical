@@ -231,3 +231,9 @@ class MedicalAbstractEntity(models.AbstractModel):
             NoneType: None if no result.
         """
         return  # pragma: no cover
+
+    def toggle(self, attr):
+        if getattr(self, attr) is True:
+            self.write({attr: False})
+        elif getattr(self, attr) is False:
+            self.write({attr: True})
