@@ -7,7 +7,7 @@
     <template id="patient_detail" inherit_id="website_portal_medical_patient.patient_detail">
         <xpath expr="//div[div[label[@for='gender']]]" position="after">
             <div class="form-group">
-                <div t-attf-class="form-field #{error.get('species_id') and 'has-error' or ''} o_website_form_required_custom">
+                <div t-attf-class="form-field col-xs-12 #{error.get('species_id') and 'has-error' or ''} o_website_form_required_custom">
                     <label class="control-label label-optional" for="species_id">
                         Species
                     </label>
