@@ -40,6 +40,12 @@ class WebsiteMedical(WebsiteMedical):
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         patient_id = request.env['medical.patient'].browse(patient_id)
+
+        kgm_categ = request.env.ref('product.product_uom_categ_kgm')
+        product_uoms = request.env['product.uom'].search([
+            ('category_id', '=', kgm_categ.id)
+        ])
+
         if len(patient_id):
             partner_id = patient_id.partner_id
         else:
@@ -50,6 +56,7 @@ class WebsiteMedical(WebsiteMedical):
             'patient': patient_id,
             'patient_website_attr': 'website_url',
             'partner': partner_id,
+            'weight_uoms': product_uoms,
         })
         return vals
 

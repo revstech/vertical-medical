@@ -25,6 +25,8 @@
             'zip',
             'state_id',
             'country_id',
+            'weight',
+            'weight_uom',
         ]"/>
     </function>
 
@@ -44,6 +46,8 @@
             'country_id',
             'birthdate_date',
             'gender',
+            'weight',
+            'weight_uom',
         ]"/>
     </function>
 
