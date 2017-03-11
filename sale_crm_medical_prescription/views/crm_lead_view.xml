@@ -12,9 +12,8 @@
             <xpath expr="//field" position="before">
                 <field name="is_prescription" invisible="True" />
             </xpath>
-            <xpath expr="//button[@class='oe_highlight']"
-                   position="attributes">
-                <field name="attrs">{'invisible': [('is_prescription', '=', True)]}</field>
+            <xpath expr="//button[contains(@class, 'oe_highlight')]" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_prescription', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//button" position="after">
                 <button string="New Quotation"
@@ -36,10 +35,12 @@
                         <field name="pharmacy_id" />
                         <field name="patient_ids" />
                         <field name="prescription_order_line_ids">
-                            <field name="prescription_order_id" />
-                            <field name="physician_id" />
-                            <field name="patient_id" />
-                            <field name="medicament_id" />
+                            <tree>
+                                <field name="prescription_order_id" />
+                                <field name="physician_id" />
+                                <field name="patient_id" />
+                                <field name="medicament_id" />
+                            </tree>
                         </field>
                     </group>
                 </page>

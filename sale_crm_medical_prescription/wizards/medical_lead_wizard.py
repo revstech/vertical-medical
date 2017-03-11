@@ -2,7 +2,7 @@
 # Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 from collections import defaultdict
 
 
@@ -55,6 +55,8 @@ class MedicalLeadWizard(models.TransientModel):
         lead_ids = lead_obj
 
         for patient_id, rx_orders in order_map.items():
+            rx_orders = sorted(rx_orders, key=lambda r: r.id)
+
             partner_id = patient_id.partner_id
             rx_order_lines = [(4, rx_order.id, 0) for rx_order in rx_orders]
 
