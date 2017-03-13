@@ -1,23 +1,33 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Medical Prescription Sale CRM',
-    'description': 'Create Opportunities from Prescriptions',
-    'version': '10.0.1.0.0',
-    'author': "LasLabs, Odoo Community Association (OCA)",
-    'category': 'Medical',
-    'depends': [
-        'sale_crm',
-        'sale_medical_prescription',
-    ],
+    "name": " Sale CRM - Medical Prescription",
+    "summary": "Create opportunities from prescriptions.",
+    "version": "10.0.1.0.0",
+    "category": "Medical",
     "website": "https://laslabs.com",
+    "author": "LasLabs, Odoo Community Association (OCA)",
     "license": "AGPL-3",
-    "data": [
-        'wizards/medical_lead_wizard_view.xml',
-        'views/crm_lead_view.xml',
+    "application": False,
+    "installable": True,
+    "depends": [
+        "sale_crm",
+        "sale_medical_prescription",
     ],
-    'installable': True,
-    'auto_install': False,
+    "data": [
+        "wizards/medical_lead_wizard_view.xml",
+        "views/crm_lead_view.xml",
+    ],
+    "demo": [
+        "demo/medical_medicament_demo.xml",
+        "demo/medical_patient_demo.xml",
+        "demo/medical_pharmacy_demo.xml",
+        "demo/medical_physician_demo.xml",
+        "demo/medical_patient_medication_demo.xml",
+        "demo/medical_prescription_order_demo.xml",
+        "demo/medical_prescription_order_line_demo.xml",
+        "demo/crm_lead_demo.xml",
+    ],
 }
