@@ -11,10 +11,10 @@
         <h3 class="page-header">
             Prescriptions
         </h3>
-        <t t-if="not patients">
+        <t t-if="not prescription_order_lines">
             <p>There are currently no prescriptions associated with your account.</p>
         </t>
-        <t t-if="patients">
+        <t t-if="prescription_order_lines">
             <h5>
                 If you would like to order a medication, please click the green
                 button to add to cart.
