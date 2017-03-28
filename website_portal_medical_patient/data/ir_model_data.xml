@@ -42,6 +42,8 @@
             'zip',
             'state_id',
             'country_id',
+            'birthdate_date',
+            'gender',
         ]"/>
     </function>
 
