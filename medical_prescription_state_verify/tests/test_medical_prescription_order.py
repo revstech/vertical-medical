@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016-2017 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests.common import TransactionCase
@@ -41,36 +41,25 @@ class TestMedicalPrescriptionOrder(TransactionCase):
 
     def test_write_attrs_not_allowed_when_verified(self):
         record_id = self._new_record()
-        record_id.state_type = 'verified'
+        record_id.write({'stage_id': 4})  # verified
         with self.assertRaises(ValidationError):
             record_id.write({'name': 'Not Happening.. Hopefully', })
 
     def test_write_state_not_allowed_when_verified(self):
         record_id = self._new_record()
-        record_id.state_type = 'verified'
-        stage_id = self.env['medical.prescription.order.state'].create({
-            'name': 'Testing123',
-        })
+        record_id.write({'stage_id': 4})  # verified
         with self.assertRaises(ValidationError):
-            record_id.write({'stage_id': stage_id.id, })
+            record_id.write({'stage_id': 2, })  # not verified
 
     def test_write_state_is_allowed_when_allowed(self):
         record_id = self._new_record()
-        record_id.state_type = 'verified'
-        stage_id = self.env['medical.prescription.order.state'].create({
-            'name': 'Testing123',
-            'type': 'cancel',
-        })
-        record_id.write({'stage_id': stage_id.id, })
+        record_id.write({'stage_id': 4})  # verified
+        record_id.write({'stage_id': 5})  # cancelled
         record_id.refresh()
-        self.assertEquals('Testing123', record_id.stage_id.name)
+        self.assertEquals('Cancelled', record_id.stage_id.name)
 
     def test_write_is_allowed_when_not_verified(self):
         record_id = self._new_record()
-        stage_id = self.env['medical.prescription.order.state'].create({
-            'name': 'Testing123',
-            'type': 'cancel',
-        })
-        record_id.write({'stage_id': stage_id.id, })
+        record_id.write({'stage_id': 5})  # cancelled
         record_id.refresh()
-        self.assertEquals('Testing123', record_id.stage_id.name)
+        self.assertEquals('Cancelled', record_id.stage_id.name)

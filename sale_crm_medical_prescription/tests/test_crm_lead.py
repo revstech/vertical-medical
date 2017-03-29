@@ -24,10 +24,12 @@ class TestCrmLead(TransactionCase):
 
     def test_compute_prescription_order(self):
         """ Test prescription orders properly calculated """
-        self.assertEquals(
-            [self.rx_order_9.id, self.rx_order_10.id],
-            self.crm_lead_1.prescription_order_ids.ids
-        )
+        rx_orders = [self.rx_order_9, self.rx_order_10]
+        for rx in rx_orders:
+            self.assertIn(
+                rx,
+                self.crm_lead_1.prescription_order_ids
+            )
 
     def test_compute_patient_ids(self):
         """ Test patient ids properly calculated """
@@ -35,9 +37,9 @@ class TestCrmLead(TransactionCase):
             'sale_crm_medical_prescription.'
             'medical_patient_patient_10'
         )
-        self.assertEquals(
-            [patient.id],
-            self.crm_lead_1.patient_ids.ids,
+        self.assertIn(
+            patient,
+            self.crm_lead_1.patient_ids
         )
 
     def test_compute_is_prescription(self):
