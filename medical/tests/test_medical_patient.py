@@ -157,6 +157,12 @@ class TestMedicalPatient(TransactionCase):
         result = self.env['medical.patient'].search(
             [('age', '=', years)]
         )
-        self.assertTrue(
-            self.patient_1 in result
+        self.assertIn(self.patient_1, result)
+
+    def test_toggle_is_pregnant(self):
+        self.patient_1.write({'is_pregnant': False})
+        self.patient_1.toggle_is_pregnant()
+        self.patient_1.refresh()
+        self.assertEquals(
+            self.patient_1.is_pregnant, True
         )

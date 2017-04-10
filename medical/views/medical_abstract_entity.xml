@@ -22,7 +22,6 @@
         <form string="Medical Entity">
             <header />
             <sheet>
-                <div class="oe_button_box" name="buttons" />
                 <field name="image"
                        widget='image'
                        class="oe_left oe_avatar"
@@ -37,12 +36,9 @@
                         <field name="parent_id" invisible="True" />
                     </h1>
                 </div>
-                <group name="main_data">
-                    <group name="left" />
-                    <group name="right" />
-                </group>
                 <notebook>
                     <page name="page_general_info" string="General Information">
+                        <div class="oe_button_box" name="buttons" />
                         <group name="group_contact_info" string="Contact Information">
                             <group name="group_contact_left">
                                 <field name="type"
@@ -126,6 +122,10 @@
                                 />
                                 <field name="lang" />
                             </group>
+                        </group>
+                        <group name="main_data">
+                            <group name="left" />
+                            <group name="right" />
                         </group>
                     </page>
                     <page name="page_contacts" string="Contacts &amp; Addresses">

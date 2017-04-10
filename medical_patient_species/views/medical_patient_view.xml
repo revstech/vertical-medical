@@ -15,8 +15,10 @@
             <field name="inherit_id" ref="medical.medical_patient_view_form" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='gender']" position="after">
-                    <field name="species_id" />
                     <field name="is_person" invisible="1" />
+                </xpath>
+                <xpath expr="//group[@name='group_medical_general_left']" position="inside">
+                    <field name="species_id" />
                 </xpath>
                 <xpath expr="//field[@name='parent_id']" position="attributes">
                     <attribute name="attrs">{'required': [('is_person', '=', False)]}</attribute>

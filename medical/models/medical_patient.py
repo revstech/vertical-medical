@@ -134,3 +134,12 @@ class MedicalPatient(models.Model):
             return [('birthdate_date', '<=', last_possible_birthdate)]
         elif operator == '<':
             return [('birthdate_date', '<', first_possible_birthdate)]
+
+    def toggle_is_pregnant(self):
+        self.toggle('is_pregnant')
+
+    def toggle_safety_cap_yn(self):
+        self.toggle('safety_cap_yn')
+
+    def toggle_counseling_yn(self):
+        self.toggle('counseling_yn')

@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from . import test_medical_medicament
+from . import test_medical_patient
 from . import test_medical_pharmacy
 from . import test_medical_physician
 from . import test_medical_prescription_order
