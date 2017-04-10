@@ -3,12 +3,15 @@
 # Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
+
+import logging
+_logger = logging.getLogger(__name__)
 
 
 MODULE_PATH = 'medical.models.medical_patient'
@@ -139,3 +142,21 @@ class TestMedicalPatient(TransactionCase):
                     now + timedelta(days=20),
                 )
             })
+
+    def test_search_age(self):
+        """
+        When patients are searched by age,
+        it should return patients with the corresponding birth dates
+        """
+        birthdate = datetime.strptime(
+            self.patient_1.birthdate, "%Y-%m-%d"
+        ).date()
+        current_date = date.today()
+        delta = current_date - birthdate
+        years = delta.days/365
+        result = self.env['medical.patient'].search(
+            [('age', '=', years)]
+        )
+        self.assertTrue(
+            self.patient_1 in result
+        )

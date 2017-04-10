@@ -3,7 +3,7 @@
 # Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import datetime
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
@@ -21,6 +21,7 @@ class MedicalPatient(models.Model):
 
     age = fields.Char(
         compute='_compute_age',
+        search='_search_age',
     )
     identification_code = fields.Char(
         string='Internal Identification',
@@ -107,3 +108,29 @@ class MedicalPatient(models.Model):
         return get_module_resource(
             'medical', 'static/src/img', 'patient-avatar.png',
         )
+
+    def _search_age(self, operator, value):
+        current_date = date.today()
+        if operator not in ('like', '=', '>=', '>', '<', '<='):
+            operator = 'like'
+        assert operator in ('like', '=', '>=', '>', '<', '<=')
+        current_year = current_date.year
+        current_day = current_date.day
+        first_possible_birthdate = current_date.replace(
+            year=current_year - (int(value) + 1)
+        )
+        last_possible_birthdate = first_possible_birthdate.replace(
+            year=current_year - int(value),
+            day=current_day - 1
+        )
+        if operator == '=' or operator == 'like':
+            return ['&', ('birthdate_date', '>=', first_possible_birthdate),
+                    ('birthdate_date', '<=', last_possible_birthdate)]
+        elif operator == '>=':
+            return [('birthdate_date', '>=', first_possible_birthdate)]
+        elif operator == '>':
+            return [('birthdate_date', '>', last_possible_birthdate)]
+        elif operator == '<=':
+            return [('birthdate_date', '<=', last_possible_birthdate)]
+        elif operator == '<':
+            return [('birthdate_date', '<', first_possible_birthdate)]
