@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import fields, models, exceptions, api, _
+from odoo.addons import decimal_precision as dp
 from datetime import timedelta
 
 
@@ -41,7 +42,8 @@ class MedicalAppointment(models.Model):
     appointment_date = fields.Datetime(
         string='Date and Time',
         index=True,
-        help='Date and Time of Scheduled Appointment'
+        help='Date and Time of Scheduled Appointment',
+        required=True,
     )
     appointment_end_date = fields.Datetime(
         string='End Date and Time',
@@ -56,8 +58,10 @@ class MedicalAppointment(models.Model):
     )
     duration = fields.Float(
         string='Duration',
-        help='Duration of appointment (in minutes)',
-        default=30.0,
+        help='Duration of appointment',
+        default=0.50,
+        required=True,
+        digits=dp.get_precision('Appointment'),
     )
     physician_id = fields.Many2one(
         string='Physician',
