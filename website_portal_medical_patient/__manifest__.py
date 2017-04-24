@@ -21,7 +21,6 @@
         "views/assets.xml",
         "data/ir_model_data.xml",
         "security/ir.model.access.csv",
-        "security/ir_sequence_security.xml",
         "security/medical_patient_security.xml",
     ],
     "demo": [

@@ -28,6 +28,5 @@
         'security/res_partner_security.xml',
         'security/medical_patient_medication_security.xml',
         'security/medical_prescription_order_security.xml',
-        'security/ir_sequence_security.xml',
     ],
 }
