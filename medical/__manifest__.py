@@ -13,6 +13,7 @@
         'partner_firstname',
         'partner_identification',
         'partner_contact_gender',
+        'partner_contact_weight',
     ],
     'author': 'LasLabs, Odoo Community Association (OCA)',
     'website': 'https://odoo-community.org/',

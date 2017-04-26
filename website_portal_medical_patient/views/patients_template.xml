@@ -68,81 +68,104 @@
                 <input type="hidden" name="parent_id" t-att-value="patient.parent_id.id or partner.id" />
                 <input type="hidden" name="id" t-att-value="patient.id or 0" />
 
-                <div class="row o_website_portal_details">
-                    <div class="col-xs-12">
-                        <div class="medical-form-error-message">
-                            <span id="o_website_form_result" />
-                            <div t-if="error_message" class="alert alert-danger">
-                                <t t-foreach="error_message" t-as="err">
-                                    <t t-esc="err"/><br />
-                                </t>
+                <div class="o_website_portal_details">
+                    <div class="medical-form-error-message">
+                        <span id="o_website_form_result" />
+                        <div t-if="error_message" class="alert alert-danger">
+                            <t t-foreach="error_message" t-as="err">
+                                <t t-esc="err"/><br />
+                            </t>
+                        </div>
+                    </div>
+                    <div class="medical-form-content">
+                        <div class="form-group">
+                            <div t-attf-class="form-field col-xs-12 #{error.get('name') and 'has-error' or ''} o_website_form_required_custom">
+                                <label class="control-label" for="name">
+                                    Full Name
+                                </label>
+                                <input type="text"
+                                    name="name"
+                                    class="form-control o_website_form_input"
+                                    required=""
+                                    t-att-value="request.params.get('name') or patient.name or ''" />
                             </div>
                         </div>
-                        <div class="medical-form-content">
-                            <div class="form-group">
-                                <div t-attf-class="form-field #{error.get('name') and 'has-error' or ''} o_website_form_required_custom">
-                                    <label class="control-label" for="name">
-                                        Full Name
-                                    </label>
-                                    <input type="text"
-                                        name="name"
-                                        class="form-control o_website_form_input"
-                                        required=""
-                                        t-att-value="request.params.get('name') or patient.name or ''" />
-                                </div>
+                        <div class="form-group">
+                            <div t-attf-class="form-field col-xs-12 #{error.get('phone') and 'has-error' or ''}">
+                                <label class="control-label label-optional" for="phone">
+                                    Phone
+                                </label>
+                                <input type="tel"
+                                    name="phone"
+                                    class="form-control o_website_form_input"
+                                    t-att-value="request.params.get('phone') or patient.phone or partner.phone or ''" />
                             </div>
-                            <div class="form-group">
-                                <div t-attf-class="form-field #{error.get('phone') and 'has-error' or ''}">
-                                    <label class="control-label" for="phone">
-                                        Phone
-                                    </label>
-                                    <input type="tel"
-                                        name="phone"
-                                        class="form-control o_website_form_input"
-                                        t-att-value="request.params.get('phone') or patient.phone or partner.phone or ''" />
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div t-attf-class="o_datepicker form-field col-xs-12 #{error.get('birthdate_date') and 'has-error' or ''}">
+                                <label class="control-label label-optional" for="birthdate_date">
+                                    Birth Date
+                                </label>
+                                <input type="text"
+                                    name="birthdate_date"
+                                    class="form-control o_website_form_date"
+                                    t-att-value="request.params.get('birthdate_date') or _format_date(patient.birthdate_date) or ''" />
                             </div>
-                            <div class="form-group">
-                                <div t-attf-class="o_datepicker form-field #{error.get('birthdate_date') and 'has-error' or ''}">
-                                    <label class="control-label label-optional" for="birthdate_date">
-                                        Birth Date
-                                    </label>
-                                    <input type="text"
-                                        name="birthdate_date"
-                                        class="form-control o_website_form_date"
-                                        t-att-value="request.params.get('birthdate_date') or _format_date(patient.birthdate_date) or ''" />
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div t-attf-class="form-field col-xs-12 #{error.get('gender') and 'has-error' or ''} o_website_form_required_custom">
+                                <label class="control-label" for="gender">
+                                    Gender
+                                </label>
+                                <select name="gender" class="form-control o_website_form_input" required="">
+                                    <option value="">Gender . . .</option>
+                                    <t t-foreach="[('female', 'Female'), ('male', 'Male'), ]"
+                                    t-as="gender">
+                                        <option t-att-value="gender[0]"
+                                                t-att-selected="gender[0] == (request.params.get('gender') or patient.gender)">
+                                            <t t-esc="gender[1]" />
+                                        </option>
+                                    </t>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <div t-attf-class="form-field #{error.get('gender') and 'has-error' or ''} o_website_form_required_custom">
-                                    <label class="control-label label-optional" for="gender">
-                                        Gender
-                                    </label>
-                                    <select name="gender" class="form-control o_website_form_input" required="">
-                                        <option value="">Gender...</option>
-                                        <t t-foreach="[('female', 'Female'), ('male', 'Male'), ]"
-                                        t-as="gender">
-                                            <option t-att-value="gender[0]"
-                                                    t-att-selected="gender[0] == (request.params.get('gender') or patient.gender)">
-                                                <t t-esc="gender[1]" />
-                                            </option>
-                                        </t>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div t-attf-class="form-field col-xs-7 #{error.get('weight') and 'has-error' or ''}">
+                                <label class="control-label label-optional" for="weight">
+                                    Weight
+                                </label>
+                                <input type="text"
+                                    name="weight"
+                                    class="form-control o_website_form_input"
+                                    t-att-value="request.params.get('weight') or patient.weight or partner.weight or ''" />
                             </div>
-                            <div class="form-group medical-form-input-file">
-                                <div t-attf-class="form-field #{error.get('phone') and 'has-error' or ''}">
-                                    <label class="control-label label-optional" for="image">
-                                        Profile Picture
+                            <div t-attf-class="form-field col-xs-5 #{error.get('weight_uom') and 'has-error' or ''}">
+                                <label class="control-label label-optional" for="weight_uom">
+                                    UoM
+                                </label>
+                                <select name="weight_uom" class="form-control o_website_form_input" required="">
+                                    <option>Select . . .</option>
+                                    <t t-foreach="weight_uoms" t-as="uom">
+                                        <option t-att-value="uom.id"
+                                                t-att-selected="uom == (request.params.get('weight_uom') or patient.weight_uom)">
+                                            <t t-esc="uom.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group medical-form-input-file">
+                            <div t-attf-class="form-field col-xs-12 #{error.get('phone') and 'has-error' or ''}">
+                                <label class="control-label label-optional" for="image">
+                                    Profile Picture
+                                </label>
+                                <div class="input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-default">
+                                            Browse <input type="file" accept="image/*" />
+                                        </span>
                                     </label>
-                                    <div class="input-group">
-                                        <label class="input-group-btn">
-                                            <span class="btn btn-default">
-                                                Browse <input type="file" accept="image/*" />
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" readonly="readonly" />
-                                    </div>
+                                    <input type="text" class="form-control" readonly="readonly" />
                                 </div>
                             </div>
                         </div>
