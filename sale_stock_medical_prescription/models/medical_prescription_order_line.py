@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016-2017 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, api, _
-from odoo.exceptions import ValidationError
+from openerp import api, fields, models
 
 
 class MedicalPrescriptionOrderLine(models.Model):
+
     _inherit = 'medical.prescription.order.line'
 
     dispense_uom_id = fields.Many2one(
-        comodel_name='product.uom',
         string='Dispense UoM',
+        comodel_name='product.uom',
         help='Dispense Unit of Measure',
         required=True,
         default=lambda s: s._default_dispense_uom_id(),
@@ -71,90 +71,75 @@ class MedicalPrescriptionOrderLine(models.Model):
         )
 
     @api.multi
-    @api.depends('dispense_uom_id',
-                 'sale_order_line_ids',
-                 'sale_order_line_ids.procurement_ids.product_uom',
-                 'sale_order_line_ids.procurement_ids.product_qty',
-                 'sale_order_line_ids.procurement_ids.state',
-                 )
-    def _compute_dispensings(self, ):
-        """ Get related dispensings - Also sets dispense qtys """
-
-        for rec_id in self:
+    @api.depends(
+        'dispense_uom_id',
+        'sale_order_line_ids',
+        'sale_order_line_ids.procurement_ids.product_uom',
+        'sale_order_line_ids.procurement_ids.product_qty',
+        'sale_order_line_ids.procurement_ids.state',
+    )
+    def _compute_dispensings(self):
+        for record in self:
 
             dispense_ids = []
             dispense_qty = 0.0
             pending_qty = 0.0
             cancel_qty = 0.0
             except_qty = 0.0
-            last_procurement_id = None
+            last_procurement = None
 
-            order_line_ids = rec_id.sale_order_line_ids.sorted(
+            order_lines = record.sale_order_line_ids.sorted(
                 key=lambda r: r.order_id.date_order
             )
-            for line_id in order_line_ids:
-                procurement_ids = line_id.procurement_ids.sorted(
+            for order_line in order_lines:
+                procurements = order_line.procurement_ids.sorted(
                     key=lambda r: r.date_planned
                 )
-                for proc_id in procurement_ids:
+                for procurement in procurements:
 
-                    dispense_ids.append(proc_id.id)
-                    last_procurement_id = proc_id
+                    dispense_ids.append(procurement.id)
+                    last_procurement = procurement
 
-                    if proc_id.product_uom.id != rec_id.dispense_uom_id.id:
-                        _qty = proc_id.product_uom._compute_quantity(
-                            proc_id.product_qty,
-                            rec_id.dispense_uom_id,
+                    if procurement.product_uom.id != record.dispense_uom_id.id:
+                        _qty = procurement.product_uom._compute_quantity(
+                            procurement.product_qty,
+                            record.dispense_uom_id,
                         )
                     else:
-                        _qty = proc_id.product_qty
+                        _qty = procurement.product_qty
 
-                    if proc_id.state == 'done':
+                    if procurement.state == 'done':
                         dispense_qty += _qty
-                    elif proc_id.state in ['confirmed', 'running']:
+                    elif procurement.state in ['confirmed', 'running']:
                         pending_qty += _qty
-                    elif proc_id.state == 'cancel':
+                    elif procurement.state == 'cancel':
                         cancel_qty += _qty
                     else:
                         except_qty += _qty
 
-            rec_id.cancelled_dispense_qty = cancel_qty
-            rec_id.dispensed_qty = dispense_qty
-            rec_id.pending_dispense_qty = pending_qty
-            rec_id.exception_dispense_qty = except_qty
-            rec_id.dispensed_ids = self.env['procurement.order'].browse(
+            record.cancelled_dispense_qty = cancel_qty
+            record.dispensed_qty = dispense_qty
+            record.pending_dispense_qty = pending_qty
+            record.exception_dispense_qty = except_qty
+
+            record.dispensed_ids = self.env['procurement.order'].browse(
                 set(dispense_ids)
             )
-            rec_id.last_dispense_id = last_procurement_id
+            record.last_dispense_id = last_procurement
 
     @api.multi
-    @api.depends('qty',
-                 'dispensed_qty',
-                 'exception_dispense_qty',
-                 'pending_dispense_qty',
-                 )
-    def _compute_can_dispense_and_qty(self, ):
-        """
-        Determine whether Rx can be dispensed based on current dispensings,
-        and what qty
-        """
+    @api.depends(
+        'qty',
+        'dispensed_qty',
+        'exception_dispense_qty',
+        'pending_dispense_qty',
+    )
+    def _compute_can_dispense_and_qty(self):
+        for record in self:
+            total = sum([record.dispensed_qty,
+                         record.exception_dispense_qty,
+                         record.pending_dispense_qty])
 
-        for rec_id in self:
-            total = sum([rec_id.dispensed_qty,
-                         rec_id.exception_dispense_qty,
-                         rec_id.pending_dispense_qty])
-
-            rec_id.active_dispense_qty = total
-            rec_id.can_dispense = rec_id.qty > total
-            rec_id.can_dispense_qty = rec_id.qty - total
-
-    @api.multi
-    @api.constrains('patient_id', 'sale_order_line_ids')
-    def _check_patient(self, ):
-        for rec_id in self:
-            for sale_line_id in rec_id.sale_order_line_ids:
-                if sale_line_id.patient_id != rec_id.patient_id:
-                    raise ValidationError(_(
-                        'Cannot change the patient on a prescription while it '
-                        'is linked to active sale order(s).'
-                    ))
+            record.active_dispense_qty = total
+            record.can_dispense = record.qty > total
+            record.can_dispense_qty = record.qty - total
