@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+# Copyright 2015 ACSONE SA/NV
 # Copyright 2016 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Medical Prescription",
     "summary": "Introduces prescription orders and prescription order lines.",
-    "version": "10.0.1.0.0",
+    "version": "10.0.1.1.0",
     "category": "Medical",
-    "website": "https://laslabs.com",
+    "website": "http://www.acsone.eu",
     "author": "ACSONE SA/NV, LasLabs, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "application": False,
