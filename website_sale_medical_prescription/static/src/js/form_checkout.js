@@ -6,7 +6,6 @@ odoo.define('website_sale_medical_prescription.form_checkout', function(require)
   "use strict";
 
   var snippet_animation = require('web_editor.snippets.animation');
-  var $ = require('$');
   
   snippet_animation.registry.medical_prescription_checkout = snippet_animation.Class.extend({
 
