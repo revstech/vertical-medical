@@ -94,7 +94,7 @@ class MedicalPatient(models.Model):
         vals = super(MedicalPatient, self)._create_vals(vals)
         if not vals.get('identification_code'):
             Seq = self.env['ir.sequence']
-            vals['identification_code'] = Seq.next_by_code(
+            vals['identification_code'] = Seq.sudo().next_by_code(
                 self._name,
             )
         vals.update({

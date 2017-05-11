@@ -54,8 +54,8 @@ class MedicalPrescriptionOrder(models.Model):
 
     @api.model
     def _default_name(self):
-        return self.env['ir.sequence'].next_by_code(
-            'medical.prescription.order',
+        return self.env['ir.sequence'].sudo().next_by_code(
+            self._name,
         )
 
     @api.multi

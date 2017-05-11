@@ -43,7 +43,7 @@ class MedicalPhysician(models.Model):
     def _create_vals(self, vals):
         vals['customer'] = False
         if not vals.get('code'):
-            sequence = self.env['ir.sequence'].next_by_code(
+            sequence = self.env['ir.sequence'].sudo().next_by_code(
                 self._name,
             )
             vals['code'] = sequence

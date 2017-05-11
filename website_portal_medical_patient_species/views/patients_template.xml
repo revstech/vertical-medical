@@ -14,7 +14,8 @@
                     <select name="species_id" class="form-control o_website_form_input" required="">
                         <option value="">Species...</option>
                         <t t-foreach="species" t-as="species">
-                            <option t-att-value="species.id" t-att-selected="species.id == patient.species_id.id">
+                            <option t-att-value="species.id"
+                                    t-att-selected="(not patient.species_id and species.name == 'Human') or (species.id == patient.species_id.id)">
                                 <t t-esc="species.name" />
                             </option>
                         </t>

@@ -17,7 +17,6 @@
         'views/assets.xml',
         'views/website_medical_template.xml',
         'views/medical_prescription_order_line_template.xml',
-        'security/medical_prescription_order_security.xml',
         'security/ir.model.access.csv',
     ],
     "application": False,
