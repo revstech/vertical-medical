@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2004-2009 Tiny SPRL
 # Copyright 2016 LasLabs Inc.
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Odoo Medical',
@@ -9,15 +9,10 @@
     'category': 'Medical',
     'depends': [
         'product',
-        'partner_contact_birthdate',
-        'partner_firstname',
-        'partner_identification',
-        'partner_contact_gender',
-        'partner_contact_weight',
     ],
     'author': 'LasLabs, Odoo Community Association (OCA)',
     'website': 'https://odoo-community.org/',
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'data': [
         'security/medical_security.xml',
         'security/ir.model.access.csv',
