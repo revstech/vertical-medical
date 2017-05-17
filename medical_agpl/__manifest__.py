@@ -12,6 +12,7 @@
     'depends': [
         'medical',
         'partner_contact_birthdate',
+        'partner_contact_weight',
         'partner_firstname',
         'partner_identification',
         'partner_contact_gender',
