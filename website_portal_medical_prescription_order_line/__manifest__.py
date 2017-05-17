@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2016 LasLabs Inc.
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Medical Website - Prescription Order Lines',
@@ -12,7 +12,7 @@
         'website_sale_medical_prescription',
     ],
     "website": "https://laslabs.com",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "data": [
         'views/assets.xml',
         'views/website_medical_template.xml',

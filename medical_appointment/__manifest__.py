@@ -24,7 +24,7 @@
         'data/medical_appointment_sequence.xml',
     ],
     'website': 'https://laslabs.com',
-    'licence': 'AGPL-3',
+    'licence': 'LGPL-3',
     'installable': True,
     'auto_install': False,
 }
