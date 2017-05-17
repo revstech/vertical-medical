@@ -24,10 +24,6 @@ class TestMedicalPatient(TransactionCase):
         self.patient_1 = self.env.ref('medical.medical_patient_patient_1')
         self.partner_patient_1 = self.env.ref('medical.res_partner_patient_1')
         self.patient_3 = self.env.ref('medical.medical_patient_patient_3')
-        self.id_category = self.env['res.partner.id_category'].create({
-            'code': 'TEST',
-            'name': 'failed = False',
-        })
 
     def test_sequence_for_identification_code(self):
         """ Test identification_code created if there is none """
@@ -149,7 +145,7 @@ class TestMedicalPatient(TransactionCase):
         it should return patients with the corresponding birth dates
         """
         birthdate = datetime.strptime(
-            self.patient_1.birthdate, "%Y-%m-%d"
+            self.patient_1.birthdate_date, "%Y-%m-%d"
         ).date()
         current_date = date.today()
         delta = current_date - birthdate
