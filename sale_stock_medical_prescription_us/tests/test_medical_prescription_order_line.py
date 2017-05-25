@@ -7,7 +7,7 @@ from mock import patch
 from odoo import fields
 from odoo.tests.common import TransactionCase
 
-MOCK_DATETIME = 'openerp.addons.sale_stock_medical_prescription_us.'\
+MOCK_DATETIME = 'odoo.addons.sale_stock_medical_prescription_us.'\
                 'models.medical_prescription_order_line.datetime'
 
 
