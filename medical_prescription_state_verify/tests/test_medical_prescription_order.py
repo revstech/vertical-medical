@@ -10,56 +10,75 @@ class TestMedicalPrescriptionOrder(TransactionCase):
 
     def setUp(self):
         super(TestMedicalPrescriptionOrder, self).setUp()
-        patient_id = self.env['medical.patient'].create({
-            'name': 'Test Patient',
-        })
-        specialty_id = self.env['medical.specialty'].create({
-            'name': 'Test Specialty',
-        })
-        physician_id = self.env['medical.physician'].create({
-            'name': 'Test Physician',
-            'specialty_id': specialty_id.id,
-        })
-        self.model_obj = self.env['medical.prescription.order']
-        self.vals = {
-            'patient_id': patient_id.id,
-            'physician_id': physician_id.id,
-        }
 
-    def _new_record(self):
-        return self.model_obj.create(self.vals)
-
-    def test_allowed_change_keys_is_list(self):
-        self.assertIsInstance(
-            self.model_obj._ALLOWED_CHANGE_KEYS, list
+        module = 'medical_prescription_state_verify'
+        self.test_order = self.env.ref(
+            module + '.medical_prescription_order_1_demo'
+        )
+        self.test_line = self.env.ref(
+            module + '.medical_prescription_order_line_1_demo'
         )
 
-    def test_allowed_change_states_is_list(self):
-        self.assertIsInstance(
-            self.model_obj._ALLOWED_CHANGE_STATES, list
+        self.state_module = 'medical_prescription_state'
+        self.verified_rx_state = self.env.ref(
+            self.state_module + '.prescription_order_state_verified'
+        )
+        self.unverified_rx_state = self.env.ref(
+            self.state_module + '.prescription_order_state_unverified'
+        )
+        self.cancelled_rx_state = self.env.ref(
+            self.state_module + '.prescription_order_state_cancelled'
+        )
+        self.exception_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_exception'
         )
 
-    def test_write_attrs_not_allowed_when_verified(self):
-        record_id = self._new_record()
-        record_id.write({'stage_id': 4})  # verified
-        with self.assertRaises(ValidationError):
-            record_id.write({'name': 'Not Happening.. Hopefully', })
+    def test_write_no_content_changes_verified_rx(self):
+        self.test_order.stage_id = self.verified_rx_state
 
-    def test_write_state_not_allowed_when_verified(self):
-        record_id = self._new_record()
-        record_id.write({'stage_id': 4})  # verified
-        with self.assertRaises(ValidationError):
-            record_id.write({'stage_id': 2, })  # not verified
+        with self.assertRaisesRegexp(ValidationError, 'edit'):
+            self.test_order.name = 'Test Name'
 
-    def test_write_state_is_allowed_when_allowed(self):
-        record_id = self._new_record()
-        record_id.write({'stage_id': 4})  # verified
-        record_id.write({'stage_id': 5})  # cancelled
-        record_id.refresh()
-        self.assertEquals('Cancelled', record_id.stage_id.name)
+    def test_write_restricted_state_changes_verified_rx(self):
+        self.test_order.stage_id = self.verified_rx_state
 
-    def test_write_is_allowed_when_not_verified(self):
-        record_id = self._new_record()
-        record_id.write({'stage_id': 5})  # cancelled
-        record_id.refresh()
-        self.assertEquals('Cancelled', record_id.stage_id.name)
+        with self.assertRaisesRegexp(ValidationError, 'move'):
+            self.test_order.stage_id = self.unverified_rx_state
+
+    def test_write_allowed_state_changes_verified_rx(self):
+        self.test_order.stage_id = self.verified_rx_state
+
+        try:
+            self.test_order.stage_id = self.cancelled_rx_state
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')
+
+    def test_write_no_limits_unverified_rx(self):
+        self.test_order.stage_id = self.unverified_rx_state
+
+        try:
+            self.test_order.name = 'Test Name'
+            self.test_order.stage_id = self.verified_rx_state
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')
+
+    def test_write_line_to_hold_when_change_to_verified(self):
+        self.test_order.stage_id = self.verified_rx_state
+
+        hold_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_hold'
+        )
+        self.assertEqual(self.test_line.stage_id, hold_line_state)
+
+    def test_write_line_to_exception_when_change_to_cancelled(self):
+        self.test_order.stage_id = self.cancelled_rx_state
+
+        self.assertEqual(self.test_line.stage_id, self.exception_line_state)
+
+    def test_write_line_to_exception_when_change_to_exception(self):
+        exception_rx_state = self.env.ref(
+            self.state_module + '.prescription_order_state_exception'
+        )
+        self.test_order.stage_id = exception_rx_state
+
+        self.assertEqual(self.test_line.stage_id, self.exception_line_state)

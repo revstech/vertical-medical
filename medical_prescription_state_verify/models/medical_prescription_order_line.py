@@ -7,31 +7,26 @@ from odoo.exceptions import ValidationError
 
 
 class MedicalPrescriptionOrderLine(models.Model):
-    """
-    Add State verification functionality to MedicalPrescriptionOrderLine
-
-    This model disallows editing of a `medical.prescription.order.line` if its
-    `prescription_order_id` is in a `verified` state.
-    """
-
     _inherit = 'medical.prescription.order.line'
-    _name = 'medical.prescription.order.line'
 
     @api.multi
-    def write(self, vals, ):
-        """
-        Overload write & perform audit validations
+    def write(self, vals):
+        """Overload to limit state changes for verified lines"""
+        STATE_MODULE = 'medical_prescription_state'
+        exception_state = self.env.ref(
+            STATE_MODULE + '.prescription_order_line_state_exception'
+        )
 
-        Raises:
-            ValidationError: When a write is not allowed due to being in a
-                protected state
-        """
-        if self.prescription_order_id.stage_id.is_verified:
-            raise ValidationError(_(
-                'You cannot edit this value after its parent Rx has'
-                ' been verified. Please either cancel it, or mark it as'
-                ' an exception if manual reversals are required. [%s]' %
-                self.prescription_order_id.name
-            ))
+        verified_recs = self.filtered(lambda r: r.stage_id.is_verified)
+        if verified_recs and 'stage_id' in vals:
+            stage_model = self.env['base.kanban.stage']
+            stage = stage_model.search([('id', '=', vals['stage_id'])])
+            if stage != exception_state and not stage.is_verified:
+                raise ValidationError(
+                    _('You are trying to move one or more verified Rx lines to'
+                      ' a disallowed unverified state (e.g. %s). Please mark'
+                      ' them as exceptions if manual changes are required.')
+                    % verified_recs[0].name
+                )
 
         return super(MedicalPrescriptionOrderLine, self).write(vals)

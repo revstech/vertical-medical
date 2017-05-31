@@ -3,44 +3,36 @@
     :alt: License: LGPL-3
 
 ============================================
-Odoo Medical Prescription State Verification
+Prescription Verification - States and Logic
 ============================================
 
-Adds a concept of types to MedicalPrescriptionOrderState that may be validated
-on. Defaults with a ``verified`` type that will not allow attribute updates, or
-status changes to types other than ``exception`` and ``cancel``.
+This module introduces the notion of verification to the prescription states 
+added in `medical_prescription_state`, which can now be either verified or 
+unverified. It also adds the following logic:
 
+* Once a prescription order is in a verified state, it can be cancelled or 
+  marked as an exception, but no other changes to the order are allowed
+* When a prescription order moves from an unverified state to a verified one, 
+  its order lines automatically move to a hold state
+* When a prescription order is cancelled or marked as an exception, its order 
+  lines are automatically marked as exceptions
+* Once a prescription order line is in a verified state, it cannot be moved to 
+  an unverified state other than the exception state
 
 Usage
 =====
-
-#. Go to Medical -> Medicine -> Prescription Orders
-#. If a prescription has been moved into Verified, it can only be moved to Exception or Cancelled
-#. Go to Medical -> Medicine -> Prescription Lines
-#. If the parent prescription has been verified, the prescription line cannot be modified
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
 
-For further information, please visit:
-
-* https://www.odoo.com/forum/help-1
-
-Known issues / Roadmap
-======================
-
-* Improve and provide a full description for this module into the README.rst
-
-
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-medical/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/vertical-medical/issues/new?body=module:%20medical_prescription_state_verify%0Aversion:%2010.0.1.0.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
-
+Bugs are tracked on 
+`GitHub Issues <https://github.com/OCA/vertical-medical/issues>`_. In case of 
+trouble, please check there if your issue has already been reported. If you 
+spotted it first, help us smash it by providing detailed and welcome feedback.
 
 Credits
 =======
@@ -48,13 +40,15 @@ Credits
 Images
 ------
 
-* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+* Odoo Community Association: 
+  `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
 
 Contributors
 ------------
 
 * Dave Lasley <dave@laslabs.com>
 * Ken Mak <kmak@laslabs.com>
+* Oleg Bulkin <obulkin@laslabs.com>
 
 Maintainer
 ----------
