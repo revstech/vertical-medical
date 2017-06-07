@@ -80,8 +80,7 @@ class MedicalPatient(models.Model):
                 years_months_days = _('No DoB')
                 years = False
             record.age = years_months_days
-            if years:
-                record.age_years = years
+            record.age_years = years
 
     @api.multi
     def _compute_is_deceased(self):
