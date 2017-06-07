@@ -5,30 +5,31 @@
 from odoo import fields, models
 
 
-class MedicalPharmacy(models.Model):
-    _inherit = 'medical.pharmacy'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-    napb_num = fields.Char(
-        string='NAPB #',
+    license_num = fields.Char(
+        string='State License #',
         comodel_name='res.partner.id_number',
         compute=lambda s: s._compute_identification(
-            'napb_num', 'NAPB',
+            'license_num', 'ST-LIC',
         ),
         inverse=lambda s: s._inverse_identification(
-            'napb_num', 'NAPB',
+            'license_num', 'ST-LIC',
         ),
-        help='National Boards of Pharmacy Id # - 7 digits',
+        help='State medical license # - varies by type of license',
     )
-    medicaid_num = fields.Char(
-        string='Medicaid #',
+    dea_num = fields.Char(
+        string='DEA #',
         comodel_name='res.partner.id_number',
         compute=lambda s: s._compute_identification(
-            'medicaid_num', 'MEDICAID',
+            'dea_num', 'DEA',
         ),
         inverse=lambda s: s._inverse_identification(
-            'medicaid_num', 'MEDICAID',
+            'dea_num', 'DEA',
         ),
-        help='Medicaid ID # - 9 digits, 1 alpha character',
+        help='Drug Enforcement Agency # - '
+             '2 alpha characters and 7 digits',
     )
     npi_num = fields.Char(
         string='NPI #',

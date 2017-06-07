@@ -14,7 +14,7 @@
     'auto_install': False,
     'depends': [
         'medical',
-        'medical_agpl'
+        'medical_agpl',
     ],
     'data': [
         'data/res_partner_id_category.xml',
