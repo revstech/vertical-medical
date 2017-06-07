@@ -1,35 +1,34 @@
 # -*- coding: utf-8 -*-
-# © 2016 LasLabs Inc.
+# Copyright 2016-2017 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models
 
 
-class MedicalPhysician(models.Model):
-    _inherit = 'medical.physician'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-    license_num = fields.Char(
-        string='State License #',
+    napb_num = fields.Char(
+        string='NAPB #',
         comodel_name='res.partner.id_number',
         compute=lambda s: s._compute_identification(
-            'license_num', 'ST-LIC',
+            'napb_num', 'NAPB',
         ),
         inverse=lambda s: s._inverse_identification(
-            'license_num', 'ST-LIC',
+            'napb_num', 'NAPB',
         ),
-        help='State medical license # - varies by type of license',
+        help='National Boards of Pharmacy Id # - 7 digits',
     )
-    dea_num = fields.Char(
-        string='DEA #',
+    medicaid_num = fields.Char(
+        string='Medicaid #',
         comodel_name='res.partner.id_number',
         compute=lambda s: s._compute_identification(
-            'dea_num', 'DEA',
+            'medicaid_num', 'MEDICAID',
         ),
         inverse=lambda s: s._inverse_identification(
-            'dea_num', 'DEA',
+            'medicaid_num', 'MEDICAID',
         ),
-        help='Drug Enforcement Agency # - '
-             '2 alpha characters and 7 digits',
+        help='Medicaid ID # - 9 digits, 1 alpha character',
     )
     npi_num = fields.Char(
         string='NPI #',

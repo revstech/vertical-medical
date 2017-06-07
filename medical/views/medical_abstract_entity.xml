@@ -297,9 +297,6 @@
                     </page>
                     <page name='page_internal_notes' string="ID &amp; Notes">
                         <field name="comment" placeholder="Internal Note..." />
-                        <group>
-                            <field name="id_numbers" />
-                        </group>
                     </page>
                 </notebook> 
             </sheet>

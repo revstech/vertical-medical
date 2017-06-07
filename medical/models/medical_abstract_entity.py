@@ -4,8 +4,7 @@
 
 import threading
 
-from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError
+from odoo import api, fields, models, tools
 
 
 class MedicalAbstractEntity(models.AbstractModel):
@@ -51,107 +50,6 @@ class MedicalAbstractEntity(models.AbstractModel):
                 ])
                 if not entities:
                     record.partner_id.active = False
-
-    @api.multi
-    @api.depends('id_numbers')
-    def _compute_identification(self, field_name, category_code):
-        """ It computes a field that indicates a certain ID type.
-
-        Use this on a field that represents a certain ID type. It will compute
-        the desired field as that ID(s).
-
-        This ID can be worked with as if it were a Char field, but it will
-        be relating back to a ``res.partner.id_number`` instead.
-
-        Example:
-
-            .. code-block:: python
-
-            social_security_id = fields.Char(
-                string='Social Security',
-                compute=lambda s: s._compute_identification(
-                    'social_security_id', 'SSN',
-                ),
-                inverse=lambda s: s._inverse_identification(
-                    'social_security_id', 'SSN',
-                ),
-            )
-
-        Args:
-            field_name: Name of field to set.
-            category_code: Category code of the Identification type.
-        """
-        for record in self:
-            id_numbers = record.id_numbers.filtered(
-                lambda r: r.category_id.code == category_code
-            )
-            if not id_numbers:
-                continue
-            # Singleton cannot be validated, because the record can be
-            #   manipulated from underneath the patient. Consider:
-            #       * User adds a second driver's license through partner,
-            #           but leaves the other active.
-            #       * User navigates to partner's associated patient record
-            #       UserError(*)
-            value = id_numbers[0].name
-            setattr(record, field_name, value)
-
-    @api.multi
-    def _inverse_identification(self, field_name, category_code):
-        """ It provides an inverse for the identification field.
-
-        This method will create a new record, or modify the existing one
-        in order to allow for the associated field to work like a Char.
-
-        Example:
-
-            .. code-block:: python
-
-            social_security_id = fields.Char(
-                string='Social Security',
-                compute=lambda s: s._compute_identification(
-                    'social_security_id', 'SSN',
-                ),
-                inverse=lambda s: s._inverse_identification(
-                    'social_security_id', 'SSN',
-                ),
-            )
-
-        Args:
-            field_name: Name of field to set.
-            category_code: Category code of the Identification type.
-        """
-        for record in self:
-            id_number = record.id_numbers.filtered(
-                lambda r: r.category_id.code == category_code
-            )
-            record_len = len(id_number)
-            if record_len == 0:
-                category = self.env['res.partner.id_category'].search([
-                    ('code', '=', category_code),
-                ])
-                name = record[field_name]
-                if not name:
-                    continue
-                self.env['res.partner.id_number'].create({
-                    'partner_id': record.partner_id.id,
-                    'category_id': category.id,
-                    'name': name,
-                })
-            elif record_len == 1:
-                value = getattr(record, field_name)
-                if value:
-                    id_number.name = value
-                else:
-                    id_number.active = False
-            else:
-                raise UserError(_(
-                    'This %s has multiple IDs of this type (%s), so a write '
-                    'via the %s field is not possible. In order to fix this, '
-                    'please use the IDs tab.',
-                ) % (
-                    record._name, category_code.name, field_name,
-                ))
 
     @api.model
     def _create_vals(self, vals):
@@ -213,9 +111,9 @@ class MedicalAbstractEntity(models.AbstractModel):
             .. code-block:: python
 
             @api.model
-            def _get_default_image(self, vals):
-                res = super(MedicalPatient, self)._get_default_image(vals)
-                if not res:
+            def _get_default_image_path(self, vals):
+                res = super(MedicalPatient, self)._get_default_image_path(vals)
+                if res:
                     return res
                 image_path = odoo.modules.get_module_resource(
                     'base', 'static/src/img', 'patient-avatar.png',
