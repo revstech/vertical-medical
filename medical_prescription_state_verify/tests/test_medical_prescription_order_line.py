@@ -10,51 +10,43 @@ class TestMedicalPrescriptionOrderLine(TransactionCase):
 
     def setUp(self):
         super(TestMedicalPrescriptionOrderLine, self).setUp()
-        patient_id = self.env['medical.patient'].create({
-            'name': 'Test Patient',
-        })
-        specialty_id = self.env['medical.specialty'].create({
-            'name': 'Test Specialty',
-        })
-        physician_id = self.env['medical.physician'].create({
-            'name': 'Test Physician',
-            'specialty_id': specialty_id.id,
-        })
-        self.order_id = self.env['medical.prescription.order'].create({
-            'patient_id': patient_id.id,
-            'physician_id': physician_id.id,
-        })
-        product_id = self.env['product.product'].create({
-            'name': 'Test Product',
-        })
-        drug_form_id = self.env['medical.drug.form'].create({
-            'name': 'Test Drug Form',
-            'code': '1',
-        })
-        medicament_id = self.env['medical.medicament'].create({
-            'name': 'Test Medicament',
-            'product_id': product_id.id,
-            'drug_form_id': drug_form_id.id,
-        })
-        self.model_obj = self.env['medical.prescription.order.line']
-        self.vals = {
-            'prescription_order_id': self.order_id.id,
-            'medicament_id': medicament_id.id,
-            'patient_id': patient_id.id,
-        }
 
-    def _new_record(self):
-        return self.model_obj.create(self.vals)
+        module = 'medical_prescription_state_verify'
+        self.test_line = self.env.ref(
+            module + '.medical_prescription_order_line_1_demo'
+        )
 
-    def test_write_not_allowed_when_verified(self):
-        record_id = self._new_record()
-        self.order_id.stage_id = 4  # verified
+        self.state_module = 'medical_prescription_state'
+        self.hold_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_hold'
+        )
+
+    def test_write_restricted_state_changes_verified_line(self):
+        self.test_line.stage_id = self.hold_line_state
+        unverified_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_unverified'
+        )
+
         with self.assertRaises(ValidationError):
-            record_id.write({'qty': 1, })
+            self.test_line.stage_id = unverified_line_state
 
-    def test_write_allowed_when_not_verified(self):
-        record_id = self._new_record()
-        self.order_id.stage_id = 5  # cancelled
-        record_id.write({'qty': 1, })
-        record_id.refresh()
-        self.assertEquals(1, record_id.qty)
+    def test_write_allowed_state_changes_verified_line(self):
+        self.test_line.stage_id = self.hold_line_state
+        exception_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_exception'
+        )
+
+        try:
+            self.test_line.stage_id = exception_line_state
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')
+
+    def test_write_no_state_change_restrictions_unverified_line(self):
+        complete_line_state = self.env.ref(
+            self.state_module + '.prescription_order_line_state_complete'
+        )
+
+        try:
+            self.test_line.stage_id = complete_line_state
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')

@@ -2,61 +2,69 @@
 # Copyright 2016-2017 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, exceptions, models
+from odoo import _, api, models
+from odoo.exceptions import ValidationError
 
 
 class MedicalPrescriptionOrder(models.Model):
-    """
-    Add State verification functionality to MedicalPrescriptionOrder
-    This model will allow you to plug in verification methods to Rx Orders,
-    allowing for custom business logic in regards to workflows and auditing.
-    Attributes:
-        _ALLOWED_CHANGE_KEYS: `list` of keys that are allowed to be changed
-            on an RX after it has been verified (without moving to a stage
-            that has been defined in `_ALLOWED_CHANGE_STATES`)
-        _ALLOWED_CHANGE_STATES: `list` of keys defining status types in which
-            an RX can be moved to after being verified
-    """
-
     _inherit = 'medical.prescription.order'
 
-    _ALLOWED_CHANGE_KEYS = ['stage_id', ]
-    _ALLOWED_CHANGE_STATES = ['Verified', 'Cancelled', 'Exception', ]
-
     @api.multi
-    def write(self, vals, ):
+    def write(self, vals):
         """
-        Overload write & perform audit validations
-        Raises:
-            ValidationError: When a write is not allowed due to being in a
-                protected state
+        1) Limit changes to verified orders
+        2) Move order lines to a hold state when their orders are verified
+        3) Move order lines to an exception state when their orders are
+        cancelled or marked as exceptions
         """
-        for rec_id in self:
-            if rec_id.stage_id.is_verified:
-                # Only allow changes for keys in self._ALLOWED_CHANGE_KEYS
-                keys = vals.keys()
-                for allowed_key in self._ALLOWED_CHANGE_KEYS:
-                    try:
-                        del keys[keys.index(allowed_key)]
-                    except ValueError:
-                        pass
-                if len(keys) > 0:
-                    raise exceptions.ValidationError(_(
-                        'You cannot edit this value after an Rx has been'
-                        ' verified. Please either cancel it, or mark it as an'
-                        ' exception if manual reversals are required. [%s]' %
-                        rec_id.name
-                    ))
+        STATE_MODULE = 'medical_prescription_state'
+        cancelled_state = self.env.ref(
+            STATE_MODULE + '.prescription_order_state_cancelled'
+        )
+        exception_state = self.env.ref(
+            STATE_MODULE + '.prescription_order_state_exception'
+        )
+        post_verify_states = cancelled_state + exception_state
 
-                # Only allow state changes from self._ALLOWED_CHANGE_STATES
-                if vals.get('stage_id'):
-                    stage_id = self.env['base.kanban.stage'].browse(
-                        vals['stage_id']
+        verified_recs = self.filtered(lambda r: r.stage_id.is_verified)
+        if verified_recs:
+            for key in vals:
+                if key != 'stage_id':
+                    raise ValidationError(
+                        _('You are trying to edit one or more prescriptions'
+                          ' that have already been verified (e.g. %s). Please'
+                          ' either cancel them or mark them as exceptions if'
+                          ' manual changes are required.')
+                        % verified_recs[0].name
                     )
-                    if stage_id.name not in self._ALLOWED_CHANGE_STATES:
-                        raise exceptions.ValidationError(_(
-                            'You cannot move an Rx into this state after it'
-                            ' has been verified. [%s]' % rec_id.name
-                        ))
 
-            return super(MedicalPrescriptionOrder, self).write(vals)
+                stage_model = self.env['base.kanban.stage']
+                stage = stage_model.search([('id', '=', vals['stage_id'])])
+                if stage not in post_verify_states:
+                    raise ValidationError(
+                        _('You are trying to move one or more verified'
+                          ' prescriptions into a disallowed state (e.g. %s).'
+                          ' Verified prescriptions can only be cancelled or'
+                          ' marked as exceptions.') % verified_recs[0].name
+                    )
+
+        super_result = super(MedicalPrescriptionOrder, self).write(vals)
+
+        verified_recs_now = self.filtered(lambda r: r.stage_id.is_verified)
+        new_verified_recs = verified_recs_now - verified_recs
+        line_hold_state = self.env.ref(
+            STATE_MODULE + '.prescription_order_line_state_hold'
+        )
+        new_verified_recs.prescription_order_line_ids.write({
+            'stage_id': line_hold_state.id,
+        })
+
+        canned_recs = self.filtered(lambda r: r.stage_id in post_verify_states)
+        line_exception_state = self.env.ref(
+            STATE_MODULE + '.prescription_order_line_state_exception'
+        )
+        canned_recs.prescription_order_line_ids.write({
+            'stage_id': line_exception_state.id,
+        })
+
+        return super_result
