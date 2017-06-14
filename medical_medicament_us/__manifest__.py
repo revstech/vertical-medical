@@ -11,6 +11,7 @@
     'depends': [
         'medical_base_us',
         'medical_medication',
+        'medical_manufacturer',
     ],
     'website': 'https://laslabs.com',
     'license': 'AGPL-3',
