@@ -102,8 +102,9 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                     'medical.patient', patient_vals,
                 ).id
             except:
+                _logger.exception("Could not edit/create patient")
                 res['errors'].append(_(
-                    'Could not create patient'
+                    'Could not edit/create patient'
                 ))
                 self._invalidate_all(
                     patient_vals, error_fields,
@@ -125,9 +126,9 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                         'medical.physician', physician_vals, write=False
                     ).id
                 except:
-                    _logger.exception("Could not create physician")
+                    _logger.exception("Could not edit/create physician")
                     res['errors'].append(_(
-                        'Could not create physician'
+                        'Could not edit/create physician'
                     ))
                     self._invalidate_all(
                         physician_vals, error_fields,

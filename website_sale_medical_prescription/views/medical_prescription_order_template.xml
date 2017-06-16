@@ -401,7 +401,7 @@
                             data-query-field="gender"
                             >
                         <option value="">Gender...</option>
-                        <t t-foreach="[('f', 'Female'), ('m', 'Male'), ]"
+                        <t t-foreach="[('female', 'Female'), ('male', 'Male')]"
                            t-as="gender">
                             <option t-att-value="gender[0]"
                                     t-att-selected="gender[0] == request.params.get('%s.gender' % rel)">
