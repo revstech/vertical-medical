@@ -32,13 +32,17 @@
             <xpath expr="//form" position="attributes">
                 <attribute name="string">Medical Center</attribute>
             </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="supplier" />
+                <field name="customer" />
+            </xpath>
             <xpath expr="//h1" position="after">
                 <h3>
                     <field name="is_company" invisible="True" />
                     <field name="parent_id" placeholder="Parent Company"
-                           domain="[('is_company', '=', True), ('is_center', '=', False)]"
+                           domain="[('is_company', '=', True), ('type', '=', 'medical.center')]"
                            context="{'default_is_company': True,
-                                     'default_is_center': False,
+                                     'default_type': 'medical.center',
                                      'default_supplier': supplier,
                                      'default_customer': customer,
                                      }" />
