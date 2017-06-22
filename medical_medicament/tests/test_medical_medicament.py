@@ -27,14 +27,6 @@ class TestMedicalMedicament(TransactionCase):
             'Advil 0.2 g - CAP',
         )
 
-    def test_name_get_no_form_name(self):
-        """ Test name_get with no form present """
-        self.medical_medicament_1.drug_form_id.name = ''
-        self.assertEquals(
-            self.medical_medicament_1.display_name,
-            'Advil 0.2 g',
-        )
-
     def test_onchange_uom(self):
         """ Test _onchange_uom is passed through to product """
         with mock.patch.object(ProductProduct, '_onchange_uom') as mk:

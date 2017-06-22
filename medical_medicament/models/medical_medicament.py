@@ -108,6 +108,11 @@ class MedicalMedicament(models.Model):
         comodel_name='product.uom',
         help='Strength unit of measure',
     )
+    display_name = fields.Char(
+        compute='_compute_display_name',
+        readonly=True,
+        store=True,
+    )
 
     @api.multi
     @api.depends('component_ids')
@@ -119,21 +124,21 @@ class MedicalMedicament(models.Model):
             rec.active_component_ids = [(6, 0, active.ids)]
 
     @api.multi
-    def name_get(self):
-        res = []
-        for rec in self:
-            if rec.drug_form_id.name:
-                form = ' - %s' % rec.drug_form_id.code
-            else:
-                form = ''
+    @api.depends('product_id.name',
+                 'strength',
+                 'strength_uom_id.name',
+                 'drug_form_id.code',
+                 'drug_form_id.name',
+                 )
+    def _compute_display_name(self):
+        for record in self:
             name = '{name} {strength:g} {uom}{form}'.format(
-                name=rec.product_id.name,
-                strength=rec.strength,
-                uom=rec.strength_uom_id.name or '',
-                form=form,
+                name=record.product_id.name,
+                strength=record.strength,
+                uom=record.strength_uom_id.name or '',
+                form=' - %s' % record.drug_form_id.code,
             )
-            res.append((rec.id, name))
-        return res
+            record.display_name = name
 
     @api.multi
     def _onchange_uom(self, uom_id, uom_po_id):
@@ -144,6 +149,12 @@ class MedicalMedicament(models.Model):
     def create(self, vals):
         vals['is_medicament'] = True
         return super(MedicalMedicament, self).create(vals)
+
+    @api.multi
+    def name_get(self):
+        return [
+            (r.id, r.display_name) for r in self
+        ]
 
     @api.model
     @api.returns('self')
