@@ -43,6 +43,10 @@ class ResPartner(models.Model):
     )
 
     @api.multi
+    def _luhn_constrains_helper(self, *args, **kwargs):
+        return
+
+    @api.multi
     def _get_medical_entity(self):
         self.ensure_one()
         if self.type and self.type[:7] == 'medical':
