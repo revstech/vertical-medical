@@ -18,5 +18,6 @@
     'installable': True,
     'data': [
         'security/ir.model.access.csv',
+        'security/medical_medicament.xml',
     ],
 }
