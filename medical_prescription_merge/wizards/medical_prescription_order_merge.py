@@ -118,5 +118,34 @@ class MedicalPrescriptionOrderMerge(models.TransientModel):
                     if order[field_name]:
                         merge_data[field_name] = order[field_name]
 
+        # Special logic needed because mail.followers records must be unique
+        # per record followed and partner/channel and because
+        # message_follower_ids does not have proper inverse
+        msg_follower_data = merge_data.get('message_follower_ids')
+        if msg_follower_data:
+            msg_follower_ids = msg_follower_data[0][2]
+            msg_followers = self.env['mail.followers'].browse(msg_follower_ids)
+
+            def follower_sort(record):
+                return (record.partner_id.id, record.channel_id.id)
+
+            msg_followers = msg_followers.sorted(key=follower_sort)
+            for key, group in itertools.groupby(msg_followers, follower_sort):
+                group = reduce(lambda x, y: x + y, group)
+                group_subtypes = group.mapped('subtype_ids')
+                group[1:].unlink()
+                group[0].subtype_ids = group_subtypes
+                group[0].res_id = dest_order.id
+
+            del merge_data['message_follower_ids']
+
+        # Special logic needed because message_ids does not have proper inverse
+        message_data = merge_data.get('message_ids')
+        if message_data:
+            message_ids = message_data[0][2]
+            messages = self.env['mail.message'].browse(message_ids)
+            messages.write({'res_id': dest_order.id})
+            del merge_data['message_ids']
+
         dest_order.write(merge_data)
         source_orders.unlink()
