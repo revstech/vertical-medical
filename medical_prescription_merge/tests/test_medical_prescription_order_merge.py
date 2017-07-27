@@ -2,11 +2,59 @@
 # Copyright 2016 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
+from odoo import api, models
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SingleTransactionCase
 
 
-class TestMedicalPrescriptionOrderMerge(TransactionCase):
+# Add mail.thread to inheritance chains to test logic for handling mail.thread
+# fields. This normally happens in mail_thread_medical_prescription
+
+class MedicalPrescriptionOrder(models.Model):
+    _name = 'medical.prescription.order'
+    _description = 'Medical Prescription Order'
+    _inherit = ['medical.prescription.order', 'mail.thread']
+
+
+class MedicalPrescriptionOrderLine(models.Model):
+    _name = 'medical.prescription.order.line'
+    _description = 'Medical Prescription Order Line'
+    _inherit = ['medical.prescription.order.line', 'mail.thread']
+
+
+class TestMedicalPrescriptionOrderMerge(SingleTransactionCase):
+    @classmethod
+    def _init_test_model(cls, model_cls):
+        """This builds a model from model_cls in order to test abstract models
+        or, in this case, temporarily incorporate the model changes above.
+        """
+        model_cls._build_model(cls.env.registry, cls.env.cr)
+        model = cls.env[model_cls._name].with_context(todo=[])
+        model._prepare_setup()
+        model._setup_base(partial=False)
+        model._setup_fields(partial=False)
+        model._setup_complete()
+        model._auto_init()
+        model.init()
+        model._auto_end()
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestMedicalPrescriptionOrderMerge, cls).setUpClass()
+        cls.env.registry.enter_test_mode()
+        cls.old_cursor = cls.cr
+        cls.cr = cls.registry.cursor()
+        cls.env = api.Environment(cls.cr, cls.uid, {})
+        cls._init_test_model(MedicalPrescriptionOrder)
+        cls._init_test_model(MedicalPrescriptionOrderLine)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.env.registry.leave_test_mode()
+        cls.cr = cls.old_cursor
+        cls.env = api.Environment(cls.cr, cls.uid, {})
+        super(TestMedicalPrescriptionOrderMerge, cls).tearDownClass()
+
     def _new_rx_order(self, extra_values=None):
         base_values = {
             'patient_id': self.env.ref('medical.medical_patient_patient_1').id,
@@ -315,3 +363,88 @@ class TestMedicalPrescriptionOrderMerge(TransactionCase):
         test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
 
         self.assertEqual(test_rx_order_1.notes, 'Precedence')
+
+    def test_perform_merge_message_followers(self):
+        """It should properly merge orders with message followers"""
+        test_rx_order_1 = self._new_rx_order()
+        test_rx_order_2 = self._new_rx_order()
+        test_follower_1 = test_rx_order_1.message_follower_ids
+        test_rx_order_2.message_follower_ids.unlink()
+        test_follower_2 = self.env['mail.followers'].create({
+            'res_model': 'medical.prescription.order',
+            'res_id': test_rx_order_2.id,
+            'partner_id': self.env.ref('base.public_partner').id,
+        })
+        test_follower_3 = self.env['mail.followers'].create({
+            'res_model': 'medical.prescription.order',
+            'res_id': test_rx_order_2.id,
+            'channel_id': self.env.ref('mail.channel_all_employees').id,
+        })
+        test_followers = test_follower_1 + test_follower_2 + test_follower_3
+        test_wiz = self.env['medical.prescription.order.merge']
+        test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
+
+        self.assertEqual(test_rx_order_1.message_follower_ids, test_followers)
+
+    def test_perform_merge_message_followers_same_partner(self):
+        """It should properly merge orders with followers of same partner ID"""
+        test_rx_order_1 = self._new_rx_order()
+        test_rx_order_2 = self._new_rx_order()
+        test_follower_1 = test_rx_order_1.message_follower_ids
+        test_follower_2 = test_rx_order_2.message_follower_ids
+        test_follower_set = test_follower_1 + test_follower_2
+        test_wiz = self.env['medical.prescription.order.merge']
+        test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
+
+        self.assertIn(test_rx_order_1.message_follower_ids, test_follower_set)
+        self.assertEqual(len(test_rx_order_1.message_follower_ids), 1)
+
+    def test_perform_merge_message_followers_same_channel(self):
+        """It should properly merge orders with followers of same channel ID"""
+        test_rx_order_1 = self._new_rx_order()
+        test_rx_order_2 = self._new_rx_order()
+        test_rx_order_1.message_follower_ids.unlink()
+        test_rx_order_2.message_follower_ids.unlink()
+        test_channel = self.env.ref('mail.channel_all_employees')
+        test_follower_1 = self.env['mail.followers'].create({
+            'res_model': 'medical.prescription.order',
+            'res_id': test_rx_order_1.id,
+            'channel_id': test_channel.id,
+        })
+        test_follower_2 = self.env['mail.followers'].create({
+            'res_model': 'medical.prescription.order',
+            'res_id': test_rx_order_2.id,
+            'channel_id': test_channel.id,
+        })
+        test_follower_set = test_follower_1 + test_follower_2
+        test_wiz = self.env['medical.prescription.order.merge']
+        test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
+
+        self.assertIn(test_rx_order_1.message_follower_ids, test_follower_set)
+        self.assertEqual(len(test_rx_order_1.message_follower_ids), 1)
+
+    def test_perform_merge_message_followers_combine_subtypes(self):
+        """It should combine subtypes when merging orders with followers"""
+        test_rx_order_1 = self._new_rx_order()
+        test_rx_order_2 = self._new_rx_order()
+        test_subtype_1 = test_rx_order_1.message_follower_ids.subtype_ids
+        test_subtype_2 = self.env.ref('mail.mt_note')
+        test_rx_order_2.message_follower_ids.subtype_ids = test_subtype_2
+        test_subtypes = test_subtype_1 + test_subtype_2
+        test_wiz = self.env['medical.prescription.order.merge']
+        test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
+
+        expected_subtypes = test_rx_order_1.message_follower_ids.subtype_ids
+        self.assertEqual(expected_subtypes, test_subtypes)
+
+    def test_perform_merge_messages(self):
+        """It should properly merge orders with messages"""
+        test_rx_order_1 = self._new_rx_order()
+        test_rx_order_2 = self._new_rx_order()
+        test_message_1 = test_rx_order_1.message_ids
+        test_message_2 = test_rx_order_2.message_ids
+        test_messages = test_message_1 + test_message_2
+        test_wiz = self.env['medical.prescription.order.merge']
+        test_wiz._perform_merge(test_rx_order_2, test_rx_order_1)
+
+        self.assertEqual(test_rx_order_1.message_ids, test_messages)
