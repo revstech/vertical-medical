@@ -96,7 +96,6 @@
                     class="form-control js_medical_prescription o_website_form_input"
                     required="required"
                     >
-                <option>Choose Prescription...</option>
                 <option value="0">New Prescription</option>
                 <t t-foreach="prescription_lines" t-as="prescription_line">
                     <option t-att-value="prescription_line.id">
