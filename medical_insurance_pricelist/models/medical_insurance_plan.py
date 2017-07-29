@@ -10,6 +10,12 @@ class MedicalInsurancePlan(models.Model):
     active = fields.Boolean(
         default=True
     )
+    pricelist_id = fields.Many2one(
+        string='Pricelist',
+        comodel_name='product.pricelist',
+        related='insurance_template_id.pricelist_id',
+        readonly=True,
+    )
 
     @api.model
     def create(self, vals):
