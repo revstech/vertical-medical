@@ -43,20 +43,21 @@ class TestMedicalInsurancePlan(TransactionCase):
         self.template_id = self.env['medical.insurance.template'].create(
             self.template_vals,
         )
-        self.vals.update({
+        plan_vals = {
+            'number': '12345',
             'patient_id': self.patient_id.id,
             'insurance_template_id': self.template_id.id,
-        })
-        return self.env['medical.insurance.plan'].create(
-            self.vals,
-        )
+        }
+        self.vals.update(plan_vals)
+        return self.env['medical.insurance.plan'].create(plan_vals)
 
     def test_pricelist_saved_on_patient_on_create(self):
         rec_id = self._new_record()
         self.assertEqual(
-            rec_id.pricelist_id, self.patient_id.property_product_pricelist,
+            rec_id.insurance_template_id.pricelist_id,
+            self.patient_id.property_product_pricelist,
             'Pricelist did not save on patient. Expected %s got %s' % (
-                rec_id.pricelist_id,
+                rec_id.insurance_template_id.pricelist_id,
                 self.patient_id.property_product_pricelist
             )
         )
@@ -68,9 +69,11 @@ class TestMedicalInsurancePlan(TransactionCase):
         })
         rec_id.write({'patient_id': new_patient_id.id})
         self.assertEqual(
-            rec_id.pricelist_id, new_patient_id.property_product_pricelist,
+            rec_id.insurance_template_id.pricelist_id,
+            new_patient_id.property_product_pricelist,
             'Pricelist did not save on patient. Expected %s got %s' % (
-                rec_id.pricelist_id, new_patient_id.property_product_pricelist
+                rec_id.insurance_template_id.pricelist_id,
+                new_patient_id.property_product_pricelist
             )
         )
 
@@ -99,9 +102,11 @@ class TestMedicalInsurancePlan(TransactionCase):
 
     def test_old_plan_inactive_on_write(self):
         old_rec_id = self._new_record()
+        patient = self.env['medical.patient'].create({'name': "test"})
         new_rec_id = self.env['medical.insurance.plan'].create({
             'number': '43',
             'insurance_template_id': self.template_id.id,
+            'patient_id': patient.id,
         })
         new_rec_id.write({'patient_id': self.patient_id.id})
         self.assertEqual(
