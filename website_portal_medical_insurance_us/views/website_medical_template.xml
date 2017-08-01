@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+
+<odoo>
+
+    <template id="medical_main"
+              name="Medical Insurance"
+              inherit_id="website_portal_medical_patient.medical_patient">
+        <xpath expr="//div[contains(@class,'o_website_medical_patient')]" position="after">
+            <div class="o_website_medical_container o_website_medical_insurance"
+                 groups="website_portal_medical_insurance_us.group_medical_insurance_website">
+                <t t-call="website_portal_medical_insurance_us.insurances" />
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
