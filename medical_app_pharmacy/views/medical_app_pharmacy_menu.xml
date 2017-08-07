@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2016 LasLabs Inc.
-     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<!-- Copyright 2016-2017 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl) -->
 
 <odoo>
-
     <menuitem id="pharmacy_app_menu"
               name="Pharmacy"
               sequence="10"
               web_icon="medical_app_pharmacy,static/description/icon.png"
+              load_xmlid="True"
               />
 
     <!-- App Level -->
-
     <menuitem id="contacts_menu"
               name="Contacts"
               parent="pharmacy_app_menu"
@@ -22,6 +21,7 @@
               name="Dispensing"
               parent="pharmacy_app_menu"
               sequence="20"
+              load_xmlid="True"
               />
 
     <menuitem id="disease_management_menu"
@@ -30,14 +30,7 @@
               sequence="30"
               />
 
-    <menuitem id="configuration_menu"
-              name="Configuration"
-              parent="pharmacy_app_menu"
-              sequence="100"
-              />
-
     <!-- Contacts -->
-
     <menuitem id="medical_patient_menu"
               name="Patients"
               parent="contacts_menu"
@@ -52,15 +45,21 @@
               action="medical_pharmacy.medical_pharmacy_action"
               />
 
+    <menuitem id="medical_pharmacist_menu"
+              name="Pharmacists"
+              parent="contacts_menu"
+              sequence="30"
+              action="medical_pharmacy.medical_pharmacist_action"
+              />
+
     <menuitem id="medical_physician_menu"
               name="Physicians"
               parent="contacts_menu"
-              sequence="30"
+              sequence="40"
               action="medical_physician.medical_physician_action"
               />
 
     <!-- Dispensing -->
-
     <menuitem id="medical_prescription_order_menu"
               name="Prescriptions"
               parent="dispensing_menu"
@@ -76,8 +75,7 @@
               />
 
     <!-- Disease Management -->
-
-    <menuitem id="medical_medication_menu"
+    <menuitem id="medical_patient_medication_menu"
               name="Medications"
               parent="disease_management_menu"
               sequence="10"
@@ -97,5 +95,4 @@
               sequence="30"
               action="medical_pathology.medical_pathology_action"
               />
-
 </odoo>
