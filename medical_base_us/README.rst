@@ -1,5 +1,6 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
-    :alt: License: AGPL-3
+   :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
+   :alt: License: AGPL-3
 
 =================
 Medical Base - US
@@ -16,24 +17,18 @@ Usage
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
 
-For further information, please visit:
-
-* https://www.odoo.com/forum/help-1
-
-Known issues / Roadmap
+Known Issues / Roadmap
 ======================
 
 * Improve and provide a full description for this module into the README.rst
 
-
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-medical/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/vertical-medical/issues/new?body=module:%20medical_base_us%0Aversion:%2010.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
-
+Bugs are tracked on
+`GitHub Issues <https://github.com/OCA/vertical-medical/issues>`_. In case of
+trouble, please check there if your issue has already been reported. If you
+spotted it first, help us smash it by providing detailed and welcomed feedback.
 
 Credits
 =======
@@ -42,6 +37,7 @@ Contributors
 ------------
 
 * Dave Lasley <dave@laslabs.com>
+* Oleg Bulkin <obulkin@laslabs.com>
 
 Maintainer
 ----------
