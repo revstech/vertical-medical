@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 LasLabs Inc.
+# Copyright 2016-2017 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.tests.common import TransactionCase
-from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from odoo.tests.common import TransactionCase
 
 
 class MedicalLuhnAbstractTestMixer(TransactionCase):
 
     def setUp(self):
         super(MedicalLuhnAbstractTestMixer, self).setUp()
-        self.model_obj = self.env[model_name]
+        self.model_obj = self.env['medical.abstract.luhn']
         self.valid = [
             4532015112830366,
             6011514433546201,

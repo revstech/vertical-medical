@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 LasLabs Inc.
+# Copyright 2016-2017 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, api
@@ -38,7 +38,7 @@ class MedicalAbstractDea(models.AbstractModel):
             bool
         """
 
-        if len(dea_num) != 9:
+        if not dea_num or len(dea_num) != 9:
             return False
 
         def digits_of(n):
