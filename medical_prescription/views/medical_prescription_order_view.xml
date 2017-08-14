@@ -102,6 +102,9 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Image" name="group_image">
+                            <field name="image" widget="image" />
+                        </page>
                         <page string="Notes" name="notes">
                             <field name="notes" nolabel="1" />
                         </page>
