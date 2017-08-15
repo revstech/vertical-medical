@@ -2,7 +2,12 @@
 # Copyright 2016 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
+import mock
+
 from odoo.tests.common import TransactionCase
+
+
+MODEL = 'odoo.addons.medical_prescription.models.medical_prescription_order'
 
 
 class TestMedicalPrescriptionOrder(TransactionCase):
@@ -41,4 +46,34 @@ class TestMedicalPrescriptionOrder(TransactionCase):
         })
         self.assertFalse(
             self.rx_1.active,
+        )
+
+    @mock.patch('%s.tools' % MODEL)
+    def test_compute_images_small(self, tools):
+        """It should write the scaled down images to the record."""
+        image = 'image'.encode('base64')
+        image_small = 'test-small'.encode('base64')
+        image_medium = 'test-medium'.encode('base64')
+        tools.image_resize_image_small.return_value = image_small
+        tools.image_resize_image_medium.return_value = image_medium
+        self.rx_1.write({'image': image})
+        tools.image_resize_image_small.assert_called_once_with(image)
+        self.assertEqual(
+            self.rx_1.image_small,
+            image_small,
+        )
+
+    @mock.patch('%s.tools' % MODEL)
+    def test_compute_images_medium(self, tools):
+        """It should write the scaled down images to the record."""
+        image = 'image'.encode('base64')
+        image_small = 'test-small'.encode('base64')
+        image_medium = 'test-medium'.encode('base64')
+        tools.image_resize_image_small.return_value = image_small
+        tools.image_resize_image_medium.return_value = image_medium
+        self.rx_1.write({'image': image})
+        tools.image_resize_image_medium.assert_called_once_with(image)
+        self.assertEqual(
+            self.rx_1.image_medium,
+            image_medium,
         )

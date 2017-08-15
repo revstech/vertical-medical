@@ -2,7 +2,7 @@
 # Copyright 2016 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models, api
+from odoo import api, fields, models, tools
 
 
 class MedicalPrescriptionOrder(models.Model):
@@ -51,6 +51,30 @@ class MedicalPrescriptionOrder(models.Model):
         compute='_compute_active',
         store=True,
     )
+    image = fields.Binary(
+        help='Full sized image of the original prescription order.',
+    )
+    image_medium = fields.Binary(
+        help='Medium sized image of the original prescription order.',
+        compute='_compute_images',
+        store=True,
+    )
+    image_small = fields.Binary(
+        help='Small sized image of the original prescription order.',
+        compute='_compute_images',
+        store=True,
+    )
+
+    @api.multi
+    @api.depends('image')
+    def _compute_images(self):
+        for record in self:
+            record.image_medium = tools.image_resize_image_medium(
+                record.image,
+            )
+            record.image_small = tools.image_resize_image_small(
+                record.image,
+            )
 
     @api.model
     def _default_name(self):
