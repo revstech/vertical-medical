@@ -3,3 +3,4 @@ access_medical_patient_portal,medical.patient.portal,medical.model_medical_patie
 access_res_partner_portal,res.partner.portal,base.model_res_partner,base.group_portal,1,1,1,0
 access_product_uom_portal,product.uom.portal,product.model_product_uom,base.group_portal,1,1,0,0
 access_product_pricelist_portal,product.pricelist.portal,product.model_product_pricelist,base.group_portal,1,1,0,0
+access_medical_patient_disease_portal,access.medical.patient.disease.portal,medical_patient_disease.model_medical_patient_disease,base.group_portal,1,1,0,0
