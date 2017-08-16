@@ -13,6 +13,7 @@
     "application": False,
     "installable": True,
     "depends": [
+        "medical_patient_disease",
         "website_portal_medical",
     ],
     "data": [
