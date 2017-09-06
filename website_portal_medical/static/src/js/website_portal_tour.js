@@ -21,8 +21,8 @@
                 content: _t('Click on the My Medical navbar item'),
                 trigger: "a.navbar-brand:contains('My Medical')",
                 run: function () {
-                    var medical_header = $("a.navbar-brand:contains('My Medical)");
-                    if (medical_header === null) {
+                    var $medical_header = $("a.navbar-brand:contains('My Medical')");
+                    if ($medical_header.length === 0) {
                         tour._consume_tour(
                             tour.running_tour,
                             'Did not load the my medical page properly'

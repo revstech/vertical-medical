@@ -10,12 +10,24 @@ class TestMedicalPatient(TransactionCase):
     def setUp(self):
         super(TestMedicalPatient, self).setUp()
         self.patient_1 = self.env.ref(
-            'website_portal_medical_patient.medical_patient_1'
+            'medical.medical_patient_patient_1'
         )
+        self.portal_user = self.env.ref(
+            'portal.demo_user0'
+        )
+        self.Patient = self.env['medical.patient']
 
     def test_compute_website_url(self):
         """ Test website_url returns correct id """
         self.assertEquals(
             self.patient_1.website_url,
             '/medical/patients/%s' % self.patient_1.id,
+        )
+
+    def test_search_related_patients(self):
+        """ It should return related patients """
+        self.env.user.partner_id = self.portal_user.partner_id
+        self.assertIn(
+            self.patient_1,
+            self.Patient.search_related_patients(),
         )

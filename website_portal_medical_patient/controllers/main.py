@@ -20,7 +20,7 @@ class WebsiteMedical(WebsiteMedical):
     )
     def my_medical(self):
         response = super(WebsiteMedical, self).my_medical()
-        patients = request.env['medical.patient']._search_related_patients()
+        patients = request.env['medical.patient'].search_related_patients()
         response.qcontext.update({
             'patient_count': len(patients),
         })
@@ -33,7 +33,7 @@ class WebsiteMedical(WebsiteMedical):
         website=True,
     )
     def medical_patients(self):
-        patients = request.env['medical.patient']._search_related_patients()
+        patients = request.env['medical.patient'].search_related_patients()
         values = {
             'patients': patients,
             'user': request.env.user,

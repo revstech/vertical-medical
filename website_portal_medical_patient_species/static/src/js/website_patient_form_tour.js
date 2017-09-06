@@ -29,9 +29,9 @@
                 content: _t('Change Species'),
                 trigger: "label:contains('Species')",
                 run: function () {
-                    var species = $("select[name='species_id']");
-                    species.val('1');
-                    if (species === null) {
+                    var $species = $("select[name='species_id']");
+                    $species.val('1');
+                    if ($species.length === 0) {
                         tour._consume_tour(
                             tour.running_tour,
                             'Inputs were not properly selected.'
