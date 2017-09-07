@@ -53,16 +53,19 @@ class MedicalPrescriptionOrder(models.Model):
     )
     image = fields.Binary(
         help='Full sized image of the original prescription order.',
+        attachment=True,
     )
     image_medium = fields.Binary(
         help='Medium sized image of the original prescription order.',
         compute='_compute_images',
         store=True,
+        attachment=True,
     )
     image_small = fields.Binary(
         help='Small sized image of the original prescription order.',
         compute='_compute_images',
         store=True,
+        attachment=True,
     )
 
     @api.multi
