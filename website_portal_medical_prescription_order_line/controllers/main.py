@@ -43,7 +43,7 @@ class WebsiteMedical(WebsiteMedical):
         rx_obj = request.env['medical.prescription.order.line']
         patient_model = request.env['medical.patient']
 
-        rx_line_ids = rx_obj.search([
+        rx_line_ids = rx_obj.sudo().search([
             ('patient_id.parent_id', 'child_of', [partner_id.id]),
         ])
 
@@ -58,12 +58,13 @@ class WebsiteMedical(WebsiteMedical):
         pricelist = request.website.get_current_pricelist()
         pricelist_item_ids = pricelist.item_ids.ids
 
-        rx_lines_filtered = rx_obj.sudo().search([
-            ('id', 'in', rx_line_ids.ids),
-            ('medicament_id.item_ids', 'in', pricelist_item_ids),
-        ])
+        rx_lines_filtered = rx_line_ids.filtered(
+            lambda r: any(
+                i in r.medicament_id.item_ids.ids for i in pricelist_item_ids
+            )
+        )
 
-        all_patients = patient_model._search_related_patients()
+        all_patients = patient_model.search_related_patients()
 
         values = ({
             'prescription_order_lines': rx_line_ids.sudo(),

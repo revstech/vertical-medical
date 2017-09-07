@@ -29,11 +29,11 @@
                 content: _t('Change Full Name'),
                 trigger: "label:contains('Full Name')",
                 run: function () {
-                    var input = $("input[name='name']");
-                    var uom = $("select[name='weight_uom']");
-                    input.val('Test');
-                    uom.val('4');
-                    if (input === null || uom === null) {
+                    var $input = $("input[name='name']");
+                    var $uom = $("select[name='weight_uom']");
+                    $input.val('Test');
+                    $uom.val('4');
+                    if ($input.length === 0 || $uom.length === 0) {
                         tour._consume_tour(
                             tour.running_tour,
                             'Inputs were not properly selected.'
@@ -51,7 +51,7 @@
             },
             {
                 content: _t('Emma Fields Should Be Test'),
-                trigger: "h5:contains('Test')",
+                trigger: "h5:contains('Test')"
             }
         ]
     );
