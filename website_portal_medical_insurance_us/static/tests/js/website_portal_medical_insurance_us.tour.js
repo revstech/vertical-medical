@@ -20,7 +20,7 @@ odoo.define('website_portal_medical_insurance_us.tour', function (require) {
     };
 
     tour.register(
-        'website_portal_medical_insurance_us',
+        'website_portal_medical_insurance_us.tour',
         {
             url: '/my/medical',
             name: _t('Test insurance portal'),
@@ -28,6 +28,10 @@ odoo.define('website_portal_medical_insurance_us.tour', function (require) {
             wait_for: base.ready(),
         },
         [
+            {
+                content: 'Click on Your Insurance Plans',
+                trigger: "a[href='/medical/insurance/plans']",
+            },
             {
                 content: 'Click edit on insurance plan',
                 trigger: 'div.medical-insurance-plan a',
@@ -63,7 +67,7 @@ odoo.define('website_portal_medical_insurance_us.tour', function (require) {
             },
             {
                 content: 'Add new plan',
-                trigger: 'a[href="/medical/insurance/plan/0"]',
+                trigger: 'a[href="/medical/insurance/plan"]',
             },
             {
                 content: 'Enter Patient Name',

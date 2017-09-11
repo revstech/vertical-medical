@@ -21,3 +21,21 @@ class MedicalInsurancePlan(models.Model):
     def _compute_website_url(self):
         for record in self:
             record.website_url = "/medical/insurance/plan/%d" % (record.id)
+
+    @api.model
+    def search_related_patient_medical_plans(self, patients=None):
+
+        if not patients:
+            patients = self.env['medical.patient'].search_related_patients()
+
+        date_now = fields.Date.today()
+
+        insurance_plans = patients.mapped('insurance_plan_ids').sorted(
+            lambda r: r.insurance_template_id.sudo().insurance_company_id.name,
+        )
+
+        active_plans = insurance_plans.filtered(
+            lambda r: not r.member_exp or r.member_exp > date_now
+        )
+
+        return active_plans

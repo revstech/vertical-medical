@@ -8,10 +8,17 @@ from odoo.tests import HttpCase
 class TestUi(HttpCase):
 
     def test_subtotals(self):
-        tour_module = 'odoo.__DEBUG__.services["web_tour.tour"]'
+        code = (
+            'odoo.__DEBUG__.services["web_tour.tour"].'
+            'run("website_portal_medical_insurance_us.tour")'
+        )
+        ready = (
+            'odoo.__DEBUG__.services["web_tour.tour"].tours['
+            '"website_portal_medical_insurance_us.tour"].ready'
+        )
         self.phantom_js(
             url_path='/my/medical',
-            code='%s.run("website_portal_medical_insurance_us")' % tour_module,
-            ready='%s.tours.website_portal_medical_insurance_us.ready' % tour_module,
+            code=code,
+            ready=ready,
             login='portal',
         )

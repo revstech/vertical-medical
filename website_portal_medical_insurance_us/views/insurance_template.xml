@@ -5,78 +5,80 @@
 <odoo>
 
     <template id="insurances" name="Insurance Plans">
-        <h3 class="page-header medical-header">
-            Insurance
-            <a href="/medical/insurance/plan/0" class="pull-right btn-lg text-uppercase add-plan">
-                Add
-            </a>
-        </h3>
-        <t t-if="not insurance_plans">
-            <p>There are currently no insurance plans associated with your account.</p>
-        </t>
-        <t t-if="insurance_plans">
-            <div class="row">
-                <t t-foreach="insurance_plans" t-as="plan">
-                    <div class="col-xs-12 col-sm-6 medical-insurance-plan">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <span class="h4 text-left" t-field="plan.patient_id.name" />
-                                <a class="pull-right" t-att-href="plan.website_url">
-                                    <i class="fa fa-pencil" />
-                                </a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="h5"
-                                         t-field="plan.insurance_company_id.name" />
+        <t t-call="website_portal_medical.medical_layout">
+            <h3 class="page-header medical-header">
+                Insurance Plans
+                <a href="/medical/insurance/plan" class="pull-right btn-lg text-uppercase add-plan">
+                    Add
+                </a>
+            </h3>
+            <t t-if="not insurance_plans">
+                <p>There are currently no insurance plans associated with your account.</p>
+            </t>
+            <t t-if="insurance_plans">
+                <div class="row">
+                    <t t-foreach="insurance_plans" t-as="plan">
+                        <div class="col-xs-12 col-sm-6 medical-insurance-plan">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span class="h4 text-left" t-field="plan.patient_id.name" />
+                                    <a class="pull-right" t-att-href="plan.website_url">
+                                        <i class="fa fa-pencil" />
+                                    </a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Identification #</strong>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="h5"
+                                            t-field="plan.insurance_company_id.name" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.number" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Group #</strong>
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Identification #</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.number" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.insurance_template_id.group_number" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Rx Bin</strong>
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Group #</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.insurance_template_id.group_number" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.insurance_template_id.rx_bin" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Rx PCN</strong>
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Rx Bin</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.insurance_template_id.rx_bin" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.insurance_template_id.rx_pcn" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Rx Group</strong>
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Rx PCN</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.insurance_template_id.rx_pcn" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.insurance_template_id.rx_group" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <strong>Plan #</strong>
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Rx Group</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.insurance_template_id.rx_group" />
                                     </div>
-                                    <div class="col-md-6 text-right"
-                                         t-field="plan.insurance_template_id.plan_number" />
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <strong>Plan #</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right"
+                                            t-field="plan.insurance_template_id.plan_number" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </t>
-            </div>
+                    </t>
+                </div>
+            </t>
         </t>
     </template>
 
@@ -100,11 +102,11 @@
         <div class="medical-form-container">
             <div class="medical-form-header">
                 <h1>Insurance Plan Details</h1>
-                <a class="pull-right" href="/my/medical">
+                <a class="pull-right" href="/medical/insurance/plans">
                     <span class="fa fa-times" />
                 </a>
             </div>
-            
+
             <form action="/medical/website_form/"
                   method="post"
                   enctype="multipart/form-data"

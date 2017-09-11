@@ -4,14 +4,28 @@
 
 <odoo>
 
-    <template id="medical_main"
-              name="Medical Insurance"
-              inherit_id="website_portal_medical_patient.medical_patient">
-        <xpath expr="//div[contains(@class,'o_website_medical_patient')]" position="after">
-            <div class="o_website_medical_container o_website_medical_insurance"
-                 groups="website_portal_medical_insurance_us.group_medical_insurance_website">
-                <t t-call="website_portal_medical_insurance_us.insurances" />
-            </div>
+    <template id="medical_layout_insurance" name="Medical Layout Insurance" inherit_id="website_portal_medical.medical_layout" priority="25">
+        <xpath expr="//ul[contains(@class,'o_portal_submenu')]" position="inside">
+            <li>
+                <a href="/medical/insurance/plans">Insurance Plans</a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="medical_my_home_insurance_plans" name="Medical My Home Insurance Plans" inherit_id="website_portal_medical.medical_my_home" priority="25">
+        <xpath expr="//div[contains(@class,'o_my_home_content')]" position="inside">
+            <h3 class="page-header">
+                <a href="/medical/insurance/plans">Your Insurance Plans
+                    <small class="ml8">
+                        <t t-if="insurance_plans">
+                            <span class='badge'><t t-esc="len(insurance_plans)" /></span>
+                        </t>
+                        <t t-if="not insurance_plans">
+                            There are currently no insurance plans for your account.
+                        </t>
+                    </small>
+                </a>
+            </h3>
         </xpath>
     </template>
 

@@ -2,7 +2,7 @@
 # Copyright 2016 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, exceptions, fields, models, _
+from odoo import api, fields, models
 
 
 import logging
@@ -53,7 +53,7 @@ class WebsiteMedicalInsuranceWizard(models.TransientModel):
         required=True,
     )
     plan_id = fields.Many2one(
-        string='Insurace Plan',
+        string='Insurance Plan',
         comodel_name='medical.insurance.plan',
     )
 
@@ -129,7 +129,7 @@ class WebsiteMedicalInsuranceWizard(models.TransientModel):
 
         template = self.get_or_create_template()
         vals = {
-            'patient_id': self.patient_id.id,
+            'patient_id': self.sudo().patient_id.id,
             'insurance_template_id': template.id,
             'number': self.number,
         }
@@ -140,12 +140,12 @@ class WebsiteMedicalInsuranceWizard(models.TransientModel):
 
         Plans = self.env['medical.insurance.plan']
         plan = Plans.search([
-            ('patient_id', '=', self.patient_id.id),
+            ('patient_id', '=', self.sudo().patient_id.id),
             ('insurance_template_id', '=', template.id),
             ('number', '=', self.number),
         ])
 
         if not plan:
-            plan = Plans.create(vals)
+            plan = Plans.sudo().create(vals)
 
         return plan[:1]
