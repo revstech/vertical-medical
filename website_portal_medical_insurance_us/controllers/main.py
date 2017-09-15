@@ -87,7 +87,9 @@ class WebsiteMedical(WebsiteMedical):
         values = {
             'error': {},
             'error_message': [],
-            'success_page': kwargs.get('success_page', '/my/medical')
+            'success_page': kwargs.get(
+                'success_page', '/medical/insurance/plans'
+            )
         }
         plan = request.env['medical.insurance.plan'].browse()
         values.update({

@@ -83,6 +83,7 @@ class WebsiteMedicalInsuranceWizard(models.TransientModel):
             if not company:
                 company = InsuranceCompanies.create({
                     'name': record.insurance_company_name,
+                    'create_uid': self.env.user.id,
                 })
             record.insurance_company_id = company[:1]
 
