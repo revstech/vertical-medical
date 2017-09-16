@@ -21,7 +21,7 @@ class TestMedicalPatient(TransactionCase):
         """ Test website_url returns correct id """
         self.assertEquals(
             self.patient_1.website_url,
-            '/medical/patients/%s' % self.patient_1.id,
+            '/medical/patient/%s' % self.patient_1.id,
         )
 
     def test_search_related_patients(self):

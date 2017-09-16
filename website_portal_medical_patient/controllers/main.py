@@ -22,7 +22,7 @@ class WebsiteMedical(WebsiteMedical):
         response = super(WebsiteMedical, self).my_medical()
         patients = request.env['medical.patient'].search_related_patients()
         response.qcontext.update({
-            'patient_count': len(patients),
+            'patients': patients,
         })
         return response
 
@@ -42,25 +42,27 @@ class WebsiteMedical(WebsiteMedical):
             'website_portal_medical_patient.medical_my_patients', values,
         )
 
-    def _inject_medical_detail_vals(self, patient_id=0, **kwargs):
+    def _inject_medical_detail_vals(self, patient=None, **kwargs):
         vals = super(WebsiteMedical, self)._inject_medical_detail_vals()
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
-        patient_id = request.env['medical.patient'].browse(patient_id)
+
+        if not patient:
+            patient = request.env['medical.patient'].browse()
 
         kgm_categ = request.env.ref('product.product_uom_categ_kgm')
         product_uoms = request.env['product.uom'].search([
             ('category_id', '=', kgm_categ.id)
         ])
 
-        if len(patient_id):
-            partner_id = patient_id.partner_id
+        if len(patient):
+            partner_id = patient.partner_id
         else:
             partner_id = request.env.user.partner_id
         vals.update({
             'countries': countries,
             'states': states,
-            'patient': patient_id,
+            'patient': patient,
             'patient_website_attr': 'website_url',
             'partner': partner_id,
             'weight_uoms': product_uoms,
@@ -68,20 +70,45 @@ class WebsiteMedical(WebsiteMedical):
         return vals
 
     @http.route(
-        ['/medical/patients/<model("medical.patient"):patient>'],
+        ['/medical/patient/<int:patient_id>'],
         type='http',
         auth='user',
         website=True,
         methods=['GET'],
     )
-    def patient(self, patient, redirect=None, **kwargs):
+    def patient(self, patient_id, redirect=None, **kwargs):
         values = {
             'error': {},
             'error_message': [],
-            'success_page': kwargs.get('success_page', '/my/medical')
+            'success_page': kwargs.get('success_page', '/medical/patients')
+        }
+        patient = request.env['medical.patient'].browse(patient_id)
+
+        if not patient:
+            return request.render('website.404')
+
+        values.update(
+            self._inject_medical_detail_vals(patient)
+        )
+        return request.render(
+            'website_portal_medical_patient.patient', values,
+        )
+
+    @http.route(
+        ['/medical/patient'],
+        type='http',
+        auth='user',
+        website=True,
+        methods=['GET'],
+    )
+    def new_patient(self, redirect=None, **kwargs):
+        values = {
+            'error': {},
+            'error_message': [],
+            'success_page': kwargs.get('success_page', '/medical/patients')
         }
         values.update(
-            self._inject_medical_detail_vals(patient.id)
+            self._inject_medical_detail_vals()
         )
         return request.render(
             'website_portal_medical_patient.patient', values,

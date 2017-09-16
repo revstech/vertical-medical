@@ -17,10 +17,10 @@
             <h3 class="page-header">
                 <a href="/medical/patients">Your Patients
                     <small class="ml8">
-                        <t t-if="patient_count">
-                            <span class='badge'><t t-esc="patient_count" /></span>
+                        <t t-if="patients">
+                            <span class='badge'><t t-esc="len(patients)" /></span>
                         </t>
-                        <t t-if="not patient_count">
+                        <t t-else="">
                             There are currently no patients for your account.
                         </t>
                     </small>

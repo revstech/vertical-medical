@@ -6,10 +6,12 @@
 
     <template id="medical_my_patients" name="My Patients">
         <t t-call="website_portal_medical.medical_layout">
-            <h3 class="page-header">Your Patients</h3>
-            <t t-if="not patients">
-                <p>There are currently no patients for your account.</p>
-            </t>
+            <h3 class="page-header medical-header">
+                Patients
+                <a href="/medical/patient" class="pull-right btn-lg text-uppercase add-plan">
+                    Add
+                </a>
+            </h3>
             <t t-if="patients">
                 <div class="row">
                     <t t-foreach="patients" t-as="patient">
@@ -26,6 +28,9 @@
                         </div>
                     </t>
                 </div>
+            </t>
+            <t t-else="">
+                <p>There are currently no patients associated with your account.</p>
             </t>
         </t>
     </template>
