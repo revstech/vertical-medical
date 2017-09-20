@@ -17,7 +17,7 @@ class MedicalPatient(models.Model):
     @api.multi
     def _compute_website_url(self):
         for record in self:
-            record.website_url = "/medical/patients/%s" % (record.id)
+            record.website_url = "/medical/patient/%s" % (record.id)
 
     @api.model
     def search_related_patients(self):

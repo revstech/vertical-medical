@@ -23,7 +23,7 @@
             },
             {
                 content: _t('Click on Emma Fields'),
-                trigger: "a[href='/medical/patients/1']"
+                trigger: "a[href='/medical/patient/1']"
             },
             {
                 content: _t('Change Species'),
