@@ -17,6 +17,7 @@
         'medical',
     ],
     'data': [
+        'data/ir_sequence.xml',
         'data/medical_role.xml',
         'views/medical_role.xml',
         'views/medical_practitioner.xml',
