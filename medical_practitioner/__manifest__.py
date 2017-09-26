@@ -6,7 +6,7 @@
 
 {
     'name': 'Medical Practitioner',
-    'version': '10.0.1.1.0',
+    'version': '10.0.1.2.0',
     'summary': 'Defines medical practioners',
     'author': 'Eficent, Creu Blanca, LasLabs, '
               'Odoo Community Association (OCA)',
