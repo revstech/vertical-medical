@@ -34,3 +34,7 @@ class MedicalPractitioner(models.Model):
         required=True,
         default=lambda s: s.env['ir.sequence'].next_by_code(s._name + '.code'),
     )
+    specialty_ids = fields.Many2many(
+        string='Specialties',
+        comodel_name='medical.specialty',
+    )
