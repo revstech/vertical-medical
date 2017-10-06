@@ -19,6 +19,7 @@
     'data': [
         'data/ir_sequence.xml',
         'data/medical_role.xml',
+        'data/medical_specialty.xml',
         'security/ir.model.access.csv',
         'views/medical_practitioner.xml',
         'views/medical_role.xml',
