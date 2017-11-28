@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.tests.common import SingleTransactionCase
 
 
@@ -86,3 +87,37 @@ class TestMedicalDeaAbstract(MedicalDeaAbstractTestMixer):
             self.model_obj._dea_is_valid(False),
             'DEA validity check on False did not fail gracefully',
         )
+
+    def test_constrain_valid_us(self):
+        """ Test _dea_constrains_helper no ValidationError if valid ref """
+        test_model = self.env['medical.test.dea'].new({
+            'ref': self.valid[0],
+            'country_id': self.country_us.id,
+        })
+
+        try:
+            test_model._check_ref()
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')
+
+    def test_constrain_invalid_us(self):
+        """ Test _dea_constrains_helper raise ValidationError invalid ref """
+        test_model = self.env['medical.test.dea'].new({
+            'ref': self.invalid[0],
+            'country_id': self.country_us.id,
+        })
+
+        with self.assertRaises(ValidationError):
+            test_model._check_ref()
+
+    def test_constrain_invalid_non_us(self):
+        """ Test _dea_constrains_helper skips validation if not US """
+        test_model = self.env['medical.test.dea'].new({
+            'ref': self.invalid[0],
+            'country_id': self.country_us.id + 1,
+        })
+
+        try:
+            test_model._check_ref()
+        except ValidationError:
+            self.fail('A ValidationError was raised and should not have been.')

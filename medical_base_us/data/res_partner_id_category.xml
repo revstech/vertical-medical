@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Copyright 2014-2017 LasLabs Inc.
-    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
--->
+<!-- Copyright 2014-2017 LasLabs Inc.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 
 <odoo>
-
     <record id="res_partner_id_category_dea" model="res.partner.id_category">
         <field name="code">DEA</field>
         <field name="name">DEA Number</field>
@@ -27,7 +24,7 @@
         <field name="code">PSPRT-US</field>
         <field name="name">US Passport</field>
     </record>
-    
+
     <record id="res_partner_id_category_npi" model="res.partner.id_category">
         <field name="code">NPI</field>
         <field name="name">NPI Number</field>
@@ -43,5 +40,4 @@
         <field name="code">MEDICARE</field>
         <field name="name">Medicare Number</field>
     </record>
-
 </odoo>
