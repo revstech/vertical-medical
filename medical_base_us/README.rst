@@ -17,11 +17,6 @@ Usage
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/159/10.0
 
-Known Issues / Roadmap
-======================
-
-* Improve and provide a full description for this module into the README.rst
-
 Bug Tracker
 ===========
 
@@ -33,10 +28,17 @@ spotted it first, help us smash it by providing detailed and welcomed feedback.
 Credits
 =======
 
+Images
+------
+
+* Odoo Community Association:
+  `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+
 Contributors
 ------------
 
 * Dave Lasley <dave@laslabs.com>
+* Brett Wood <bwood@laslabs.com>
 * Oleg Bulkin <obulkin@laslabs.com>
 
 Maintainer
