@@ -95,9 +95,8 @@ class TestSaleOrderLine(TransactionCase):
 
     def test_check_can_dispense_qty_greater_than_rx_line_can_dispense(self):
         """ Test raise ValidationError if try dispense but not enough stock """
-        self.order_line_13.product_uom_qty = 1000
         with self.assertRaises(ValidationError):
-            self.order_line_13._check_can_dispense()
+            self.order_line_13.product_uom_qty = 1000
 
     def test_prepare_order_line_procurement_otc(self):
         """ It should not throw an error and should assign OTC route """

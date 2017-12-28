@@ -19,7 +19,11 @@ class SaleOrderLine(models.Model):
     )
 
     @api.multi
-    @api.depends('product_uom', 'prescription_order_line_id.dispense_uom_id')
+    @api.depends(
+        'product_uom',
+        'product_uom_qty',
+        'prescription_order_line_id.dispense_uom_id',
+    )
     def _compute_dispense_qty(self):
         for record in self:
             rx_line = record.prescription_order_line_id
