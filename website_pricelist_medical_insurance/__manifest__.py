@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2015 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
 
@@ -19,7 +19,7 @@
         'security/medical_insurance_security.xml',
     ],
     'website': 'https://laslabs.com',
-    'license': 'LGPL-3',
+    'license': 'GPL-3',
     'installable': True,
     'auto_install': False,
 }

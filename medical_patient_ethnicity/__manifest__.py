@@ -45,7 +45,7 @@
         'medical',
     ],
     "website": "https://laslabs.com",
-    "license": "LGPL-3",
+    "license": "GPL-3",
     "data": [
         'views/medical_patient_ethnicity_view.xml',
         'views/medical_patient_view.xml',
