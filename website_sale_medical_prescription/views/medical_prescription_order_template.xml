@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-    Copyright 2016 LasLabs Inc.
-    @license LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
--->
+<!-- Copyright 2016-2017 LasLabs Inc.
+     License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
 
 <odoo>
 
@@ -532,6 +529,7 @@
 
             <div class="row">
                 
+                <t t-set="rel_order" t-value="'%d.prescription_order_id' % sale_line.id"/>
                 <t t-set="rel" t-value="'%d.prescription_order_id.transfer_pharmacy_id' % sale_line.id" />
                 <t t-set="res_model" t-value="'medical.pharmacy'" />
 
@@ -544,11 +542,11 @@
                        data-query-field="id"
                        />
                 <input type="hidden"
-                       t-att-name="'%s.transfer_direction' % rel"
+                       t-att-name="'%s.transfer_direction' % rel_order"
                        class="js_website_autocomplete form-control o_website_form_input"
-                       t-att-value="request.params.get('%s.transfer_direction' % rel)  or 'in'"
+                       t-att-value="request.params.get('%s.transfer_direction' % rel_order)  or 'in'"
                        t-att-data-model="res_model"
-                       t-att-data-relate-recv="rel"
+                       t-att-data-relate-recv="rel_order"
                        data-query-field="transfer_direction"
                        />
 
@@ -574,19 +572,17 @@
                 </div>
 
                 <div class="form-group form-field col-lg-6">
-                    <label class="control-label" t-att-name="'%s.transfer_ref' % rel">
+                    <label class="control-label" t-att-name="'%s.transfer_ref' % rel_order">
                         Prescription Number
                     </label>
                     <input type="text"
-                           t-att-name="'%s.transfer_ref' % rel"
+                           t-att-name="'%s.transfer_ref' % rel_order"
                            class="form-control o_website_form_input"
-                           t-att-value="request.params.get('%s.transfer_ref' % rel)  or ''"
+                           t-att-value="request.params.get('%s.transfer_ref' % rel_order)  or ''"
                            />
                 </div>
                 
             </div>
-            
-            <t t-set="rel" t-value="'%d.prescription_order_id' % sale_line.id" />
             
             <div class="row">
                 

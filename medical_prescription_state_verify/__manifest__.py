@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2016-2017 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Prescription Verification - States and Logic',
@@ -9,7 +9,7 @@
     'author': 'LasLabs, Odoo Community Association (OCA)',
     'category': 'Medical',
     'website': 'https://laslabs.com',
-    'license': 'LGPL-3',
+    'license': 'GPL-3',
     'installable': True,
     'auto_install': False,
     'depends': [

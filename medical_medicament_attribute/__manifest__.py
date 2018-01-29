@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2015 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Medical Medicament Physical Attributes',
@@ -12,7 +12,7 @@
         'medical_medicament',
     ],
     "website": "http://github.com/oca/vertical-medical",
-    "license": "LGPL-3",
+    "license": "GPL-3",
     "data": [
         'views/medical_medicament_view.xml',
         'views/medical_medicament_attribute_view.xml',

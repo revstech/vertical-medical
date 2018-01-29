@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2016-2017 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Medical Appointment',
@@ -24,7 +24,7 @@
         'data/medical_appointment_sequence.xml',
     ],
     'website': 'https://laslabs.com',
-    'licence': 'LGPL-3',
+    'licence': 'GPL-3',
     'installable': True,
     'auto_install': False,
 }
