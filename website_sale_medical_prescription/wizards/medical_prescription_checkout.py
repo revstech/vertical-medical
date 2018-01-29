@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# Copyright 2016-2017 LasLabs Inc.
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import models, fields, api, _
 
@@ -76,6 +76,8 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                     'prescription_order_line_id': rx_line_int,
                 })
                 continue
+            else:
+                del rx_line_vals['prescription_line_id']
 
             medicament_id = line_id.product_id.medicament_ids[0]
             rx_line_vals.update({
@@ -158,6 +160,8 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                     rx_vals['transfer_pharmacy_id'] = self._write_or_create(
                         'medical.pharmacy', transfer_vals, write=False
                     ).id
+                else:
+                    rx_vals['transfer_pharmacy_id'] = int(transfer_vals['id'])
             except KeyError:
                 pass
             except:
@@ -165,7 +169,7 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                     'Could not create pharmacy'
                 ))
                 self._invalidate_all(
-                    physician_vals, error_fields,
+                    transfer_vals, error_fields,
                     name_prefix='%s.transfer_pharmacy_id' % name_prefix
                 )
                 continue
@@ -189,14 +193,28 @@ class MedicalPrescriptionCheckout(models.TransientModel):
                          write=True
                          ):
         model_obj = self.env[model_name]
+
         if write and int(vals.get('id', 0)) != 0:
             rec_id = model_obj.browse(int(vals['id']))
             del vals['id']
             rec_id.write(vals)
+
         else:
             if sudo_create:
                 model_obj = model_obj.sudo()
             rec_id = model_obj.create(vals)
+
+            # Needed for proper access by portal users due to sudo
+            public_user_group = self.env.ref('base.group_public')
+            if public_user_group not in self.env.user.groups_id:
+                rec_id._write({'create_uid': self.env.uid})
+                try:
+                    rec_partner = rec_id.partner_id
+                    if rec_partner._name == 'res.partner':
+                        rec_partner._write({'create_uid': self.env.uid})
+                except AttributeError:
+                    pass
+
         return rec_id
 
     @api.model

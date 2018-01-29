@@ -1,5 +1,5 @@
 // Copyright 2016 LasLabs Inc.
-// License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+// License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 odoo.define('website_portal_medical.delete_form', function(require) {
     "use strict";

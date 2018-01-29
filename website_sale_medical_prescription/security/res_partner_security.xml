@@ -1,33 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-    Copyright (C) 2016-TODAY LasLabs [https://laslabs.com]
-    @license LGPL-3
--->
+<!-- Copyright 2016-2017 LasLabs Inc.
+     License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
 
 <odoo>
-    <record model="ir.rule" id="res_partner_portal_rule">
-        <field name="name">res.partner.portal.rule</field>
+    <record model="ir.rule" id="res_partner_rule_portal_read">
+        <field name="name">Res Partner - Portal Read Access</field>
         <field name="model_id" ref="base.model_res_partner"/>
         <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-        <field name="domain_force">['|',
-            ('id', 'child_of', [user.commercial_partner_id.id]),
-            ('parent_id', 'child_of', [user.commercial_partner_id.id]),
+        <field name="domain_force">[
+            '|', '|',
             ('type', '=', 'medical.physician'),
             ('type', '=', 'medical.pharmacy'),
             ('create_uid', '=', user.id),
         ]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
     </record>
-    <record model="ir.rule" id="res_partner_public_rule">
-        <field name="name">res.partner.public.rule</field>
+
+    <record model="ir.rule" id="res_partner_rule_public_read">
+        <field name="name">Res Partner - Public Read Access</field>
         <field name="model_id" ref="base.model_res_partner"/>
         <field name="groups" eval="[(4, ref('base.group_public'))]"/>
-        <field name="domain_force">['|',
-            ('id', 'child_of', [user.commercial_partner_id.id]),
-            ('parent_id', 'child_of', [user.commercial_partner_id.id]),
+        <field name="domain_force">[
+            '|', '|',
             ('type', '=', 'medical.physician'),
             ('type', '=', 'medical.pharmacy'),
             ('create_uid', '=', user.id),
         ]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record model="ir.rule" id="res_partner_rule_portal_write">
+        <field name="name">Res Partner - Portal Write Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record model="ir.rule" id="res_partner_rule_public_write">
+        <field name="name">Res Partner - Public Write Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
     </record>
 </odoo>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2016 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Medical Website Base',
@@ -8,7 +8,7 @@
     'author': "LasLabs, Odoo Community Association (OCA)",
     'category': 'Medical',
     "website": "https://laslabs.com",
-    "license": "LGPL-3",
+    "license": "GPL-3",
     "application": False,
     'installable': True,
     'post_init_hook': '_update_patients_legal_rep',

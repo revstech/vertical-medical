@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 LasLabs Inc.
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# Copyright 2016-2017 LasLabs Inc.
+# License GPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 {
     'name': 'Website Sale Medical Prescription',
     'summary': 'Adds prescription information to website checkout process',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'Website',
     'website': 'https://laslabs.com/',
-    'author': 'LasLabs',
-    'license': 'LGPL-3',
+    'author': 'LasLabs, Odoo Community Association (OCA)',
+    'license': 'GPL-3',
     'application': False,
     'installable': True,
     'depends': [
         'sale_medical_prescription',
+        'website_field_autocomplete_related',
         'website_sale',
         'website_sale_medical_medicament',
-        'website_field_autocomplete_related',
     ],
     'data': [
         'views/medical_prescription_order_template.xml',

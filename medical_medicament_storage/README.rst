@@ -1,6 +1,6 @@
-.. image:: https://img.shields.io/badge/license-LGPL--3-blue.svg
+.. image:: https://img.shields.io/badge/license-GPL--3-blue.svg
    :target: http://www.gnu.org/licenses/lgpl.html
-   :alt: License: LGPL-3
+   :alt: License: GPL-3
 
 ==================================================
 Medical Medicament - Reusable Storage Instructions
