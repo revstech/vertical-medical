@@ -4,5 +4,6 @@
 
 from . import medical_insurance_company
 from . import medical_insurance_plan
+from . import res_users
 from . import website_config_settings
 from . import website
